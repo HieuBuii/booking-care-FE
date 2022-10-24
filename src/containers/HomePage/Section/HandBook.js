@@ -14,7 +14,7 @@ class HandBook extends Component {
     };
     return (
       <div className="section-common section-medical-facility">
-        <div className="section-container">
+        <div className="section-container container">
           <div className="section-header">
             <h3 className="section-title">Cẩm nang</h3>
             <button className="section-btn">Tất cả bài viết</button>

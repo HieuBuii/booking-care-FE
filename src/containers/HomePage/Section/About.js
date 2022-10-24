@@ -5,7 +5,7 @@ class About extends Component {
   render() {
     return (
       <div className="section-common">
-        <div className="section-container">
+        <div className="section-container container">
           <div className="section-header">
             <h3 className="section-title">
               Mọi người nói gì về <strong>PTIT</strong>
@@ -18,9 +18,9 @@ class About extends Component {
                 height="400px"
                 src="https://www.youtube.com/embed/IFRjie2XVzE"
                 title="Giới thiệu Học viện Công nghệ Bưu chính Viễn thông - PTIT"
-                frameborder="0"
+                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
+                allowFullScreen
               ></iframe>
             </div>
             <div className="about-detail"></div>

@@ -15,7 +15,7 @@ class HomeHeader extends Component {
     return (
       <>
         <div className="home-header-container">
-          <div className="home-header-content">
+          <div className="home-header-content container">
             <div className="content-left">
               <i className="fas fa-bars icon"></i>
               <div className="header-logo">

@@ -11,8 +11,9 @@ export const LENGUAGES = {
   EN: "en",
 };
 
-export const manageActions = {
-  ADD: "ADD",
+export const MANAGER_ACTIONS = {
+  CREATE: "CREATE",
+  READ: "READ",
   EDIT: "EDIT",
   DELETE: "DELETE",
 };

@@ -2,7 +2,7 @@
   padding-bottom: 30px;
   .section-container {
     height: 100%;
-    margin: 0 100px;
+    margin: 0 auto;
     .section-header {
       display: flex;
       align-items: center;
@@ -36,7 +36,7 @@
           align-items: center;
           flex-direction: column;
           padding: 20px 10px 40px 10px;
-          border: 1px solid #ccc;
+          border: 2px solid #ccc;
         }
         .section-img {
           width: 100%;
@@ -84,11 +84,11 @@
       .slick-prev,
       .slick-next {
         background-color: transparent !important;
+        z-index: 10;
       }
 
       .slick-prev {
         left: -25px !important;
-        z-index: 1000;
       }
 
       .slick-prev:before,
@@ -99,7 +99,6 @@
 
       .slick-next {
         right: -3px !important;
-        z-index: 1000;
       }
     }
   }
