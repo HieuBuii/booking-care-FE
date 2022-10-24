@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
-import { LENGUAGES, MANAGER_ACTIONS } from "../../../utils";
+import { LENGUAGES, MANAGER_ACTIONS, CommonUtils } from "../../../utils";
 import * as actions from "../../../store/actions";
 import "./UserRedux.scss";
 import Lightbox from "react-image-lightbox";
@@ -80,19 +80,21 @@ class UserRedux extends Component {
           arrPosition && arrPosition.length > 0 ? arrPosition[0].key : "",
         role: arrRole && arrRole.length > 0 ? arrRole[0].key : "",
         avatar: "",
+        previewImg: "",
         actions: MANAGER_ACTIONS.CREATE,
       });
     }
   }
 
-  handleAddImg = (e) => {
+  handleAddImg = async (e) => {
     let data = e.target.files;
     let file = data[0];
     if (file) {
+      let base64 = await CommonUtils.getBase64(file);
       let objectUrl = URL.createObjectURL(file);
       this.setState({
         previewImg: objectUrl,
-        avatar: file,
+        avatar: base64,
       });
     }
   };
@@ -173,12 +175,12 @@ class UserRedux extends Component {
           gender: this.state.gender,
           roleId: this.state.role,
           positionId: this.state.position,
+          image: this.state.avatar,
         });
         this.setState({
           action: MANAGER_ACTIONS.CREATE,
         });
-      }
-      if (this.state.action === MANAGER_ACTIONS.CREATE) {
+      } else {
         this.props.createUser({
           email: this.state.email,
           password: this.state.password,
@@ -198,6 +200,11 @@ class UserRedux extends Component {
   };
 
   editToParent = (user) => {
+    let imgBase64 = "";
+    if (user.image) {
+      imgBase64 = new Buffer(user.image, "base64").toString("binary");
+    }
+
     this.setState({
       id: user.id,
       email: user.email,
@@ -209,7 +216,8 @@ class UserRedux extends Component {
       gender: user.gender,
       position: user.positionId,
       role: user.roleId,
-      avatar: user.avatar,
+      avatar: " ",
+      previewImg: imgBase64,
       action: MANAGER_ACTIONS.EDIT,
     });
   };
@@ -228,7 +236,6 @@ class UserRedux extends Component {
       gender,
       position,
       role,
-      avatar,
       action,
     } = this.state;
     return (
