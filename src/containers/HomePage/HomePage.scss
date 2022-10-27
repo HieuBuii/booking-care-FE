@@ -43,16 +43,21 @@
           height: 200px;
           margin-bottom: 10px;
           &.specialty-img {
-            background: url("../../assets/images/co-xuong-khop.jpg") center
-              center / cover no-repeat;
+            background-image: url("../../assets/images/co-xuong-khop.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
           }
           &.medical-facility-img {
-            background: url("../../assets/images/benh-vien-cho-ray.jpg") center
-              center / cover no-repeat;
+            background-image: url("../../assets/images/benh-vien-cho-ray.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
           }
           &.doctor-img {
-            background: url("../../assets/images/doctor.jpg") center center /
-              cover no-repeat;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
             width: 120px;
             height: 120px;
             border-radius: 50%;
@@ -85,6 +90,10 @@
       .slick-next {
         background-color: transparent !important;
         z-index: 10;
+      }
+
+      .slick-disabled {
+        display: none !important;
       }
 
       .slick-prev {

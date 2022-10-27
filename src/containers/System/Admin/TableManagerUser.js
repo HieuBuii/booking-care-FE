@@ -2,6 +2,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 
+import MarkdownIt from "markdown-it";
+import MdEditor from "react-markdown-editor-lite";
+// import style manually
+import "react-markdown-editor-lite/lib/index.css";
+
+// Register plugins if required
+// MdEditor.use(YOUR_PLUGINS_HERE);
+
+// Initialize a markdown parser
+const mdParser = new MarkdownIt(/* Markdown-it options */);
+
+// Finish!
+function handleEditorChange({ html, text }) {
+  console.log("handleEditorChange", html, text);
+}
+
 class TableManageUser extends Component {
   constructor(props) {
     super(props);
@@ -33,50 +49,59 @@ class TableManageUser extends Component {
   render() {
     let users = this.state.listUsers;
     return (
-      <div className="users-container container my-5">
-        <table id="customers">
-          <thead>
-            <tr>
-              <th>Email</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Address</th>
-              <th>Phonenumber</th>
-              <th>Options</th>
-            </tr>
-          </thead>
+      <>
+        <div className="users-container container my-5">
+          <table id="customers">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Address</th>
+                <th>Phonenumber</th>
+                <th>Options</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {users.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <td>{item.email}</td>
-                  <td>{item.firstName}</td>
-                  <td>{item.lastName}</td>
-                  <td>{item.address}</td>
-                  <td>{item.phonenumber}</td>
-                  <td>
-                    <div>
-                      <button
-                        className="btn btn-edit"
-                        onClick={() => this.handleEditUser(item)}
-                      >
-                        <i className="fas fa-pencil-alt"></i>
-                      </button>
-                      <button
-                        className="btn btn-delete"
-                        onClick={() => this.handleDeleteUser(item)}
-                      >
-                        <i className="fas fa-trash"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+            <tbody>
+              {users.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{item.email}</td>
+                    <td>{item.firstName}</td>
+                    <td>{item.lastName}</td>
+                    <td>{item.address}</td>
+                    <td>{item.phonenumber}</td>
+                    <td>
+                      <div>
+                        <button
+                          className="btn btn-edit"
+                          onClick={() => this.handleEditUser(item)}
+                        >
+                          <i className="fas fa-pencil-alt"></i>
+                        </button>
+                        <button
+                          className="btn btn-delete"
+                          onClick={() => this.handleDeleteUser(item)}
+                        >
+                          <i className="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div className="container">
+          <MdEditor
+            style={{ height: "500px" }}
+            renderHTML={(text) => mdParser.render(text)}
+            onChange={handleEditorChange}
+          />
+        </div>
+      </>
     );
   }
 }

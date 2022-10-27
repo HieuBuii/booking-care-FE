@@ -5,10 +5,17 @@ import { FormattedMessage } from "react-intl";
 import { LENGUAGES } from "../../utils/constant";
 import { changeLanguageApp } from "../../store/actions";
 import mainLogo from "../../assets/images/Logo.png";
+import { withRouter } from "react-router";
 
 class HomeHeader extends Component {
   changeLanguage = (language) => {
     this.props.changeLanguageAppRedux(language);
+  };
+
+  goToHome = () => {
+    if (this.props.history) {
+      this.props.history.push(`/home`);
+    }
   };
   render() {
     let language = this.props.language;
@@ -19,9 +26,11 @@ class HomeHeader extends Component {
             <div className="content-left">
               <i className="fas fa-bars icon"></i>
               <div className="header-logo">
-                <a href="#">
-                  <img src={mainLogo} alt="logo"></img>
-                </a>
+                <img
+                  src={mainLogo}
+                  alt="logo"
+                  onClick={() => this.goToHome()}
+                ></img>
               </div>
             </div>
             <ul className="content-center">
@@ -93,52 +102,6 @@ class HomeHeader extends Component {
             </div>
           </div>
         </div>
-        <div className="home-header-banner">
-          <div className="banner-up">
-            <h1 className="banner-title">
-              <FormattedMessage id="banner.base" />
-            </h1>
-            <h1 className="banner-title banner-main-title">
-              <FormattedMessage id="banner.health-care" />
-            </h1>
-            <div className="banner-search">
-              <i className="fas fa-search"></i>
-              <input
-                className="banner-input"
-                type="text"
-                placeholder="Tìm chuyên khoa"
-              />
-            </div>
-          </div>
-          <div className="banner-down">
-            <ul className="banner-down-options">
-              <li className="banner-options">
-                <i className="fas fa-hospital-alt"></i>
-                <div className="options-title">
-                  <FormattedMessage id="banner.specialist" />
-                </div>
-              </li>
-              <li className="banner-options">
-                <i className="fas fa-notes-medical"></i>
-                <div className="options-title">
-                  <FormattedMessage id="banner.check-health" />
-                </div>
-              </li>
-              <li className="banner-options">
-                <i className="fas fa-map-marker-alt"></i>
-                <div className="options-title">
-                  <FormattedMessage id="banner.clinic" />
-                </div>
-              </li>
-              <li className="banner-options">
-                <i className="fas fa-user-md"></i>
-                <div className="options-title">
-                  <FormattedMessage id="banner.doctor" />
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
       </>
     );
   }
@@ -158,4 +121,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(HomeHeader)
+);

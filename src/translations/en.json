@@ -13,7 +13,7 @@
   },
 
   "banner": {
-    "base": "MEDICAL BASED",
+    "base": "MEDICAL PLASFORM",
     "health-care": "COMPREHENSIVE HEALTH CARE",
     "search": "Find a clinic",
     "specialist": "Specializations",
@@ -51,5 +51,9 @@
     "upload": "Upload image",
     "save": "Add user",
     "edit": "Save change"
+  },
+  "home-page": {
+    "outstanding-doctor": "Outstanding Doctor",
+    "view-more": "More infor"
   }
 }

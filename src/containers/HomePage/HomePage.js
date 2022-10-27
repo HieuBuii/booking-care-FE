@@ -7,6 +7,7 @@ import OutstandingDoctor from "./Section/OutstandingDoctor";
 import HandBook from "./Section/HandBook";
 import About from "./Section/About";
 import Footer from "./Section/Footer";
+import Banner from "./Section/Banner";
 
 import "./HomePage.scss";
 import "slick-carousel/slick/slick.css";
@@ -16,7 +17,7 @@ class HomePage extends Component {
   render() {
     let settings = {
       dots: false,
-      infinite: true,
+      infinite: false,
       speed: 500,
       slidesToShow: 4,
       slidesToScroll: 2,
@@ -24,6 +25,7 @@ class HomePage extends Component {
     return (
       <div>
         <HomeHeader />
+        <Banner />
         <Specialty settings={settings} />
         <MedicalFacility settings={settings} />
         <OutstandingDoctor settings={settings} />
