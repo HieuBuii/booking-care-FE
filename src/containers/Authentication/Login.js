@@ -60,6 +60,12 @@ class Login extends Component {
     }
   };
 
+  handleEnterPress = (e) => {
+    if (e.key === "Enter") {
+      this.handleLogin();
+    }
+  };
+
   render() {
     return (
       <div className="login-background">
@@ -73,6 +79,7 @@ class Login extends Component {
                 className="form-control"
                 placeholder="Enter Your Username"
                 onChange={(e) => this.handleInputUsername(e)}
+                onKeyDown={(e) => this.handleEnterPress(e)}
               />
             </div>
             <div className="col-12 form-group login-input">
@@ -83,6 +90,7 @@ class Login extends Component {
                   className="form-control"
                   placeholder="Enter Your Password"
                   onChange={(e) => this.handleInputPassword(e)}
+                  onKeyDown={(e) => this.handleEnterPress(e)}
                 />
                 <div
                   className="login-password-icon"

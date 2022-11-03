@@ -1,6 +1,10 @@
 .detail-doctor-top {
-  display: flex;
   margin-top: 70px;
+  .content-detail-top {
+    display: flex;
+    width: 100%;
+    margin-bottom: 20px;
+  }
   .detail-doctor-top-left {
     width: 20%;
     display: flex;
@@ -27,6 +31,17 @@
     .detail-doctor-des {
       font-size: 14px;
       color: grey;
+    }
+  }
+  .schedule-doctor-container {
+    width: 100%;
+    display: flex;
+    min-height: 250px;
+    .schedule-left {
+      width: 50%;
+    }
+    .schedule-right {
+      width: 50%;
     }
   }
 }

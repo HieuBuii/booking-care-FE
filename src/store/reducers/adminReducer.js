@@ -10,6 +10,8 @@ const initialState = {
   allDoctors: [],
   infoDoctor: [],
   idDoctorDetail: "",
+  timeArr: [],
+  requiredInfoDoctor: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -107,11 +109,29 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
 
-    // case actionTypes.SAVE_ID_DOCTOR:
-    //   return {
-    //     ...state,
-    //     idDoctor: action.idDoctor,
-    //   };
+    case actionTypes.FETCH_ALL_TIME_SUCCESS:
+      state.timeArr = action.data;
+      return {
+        ...state,
+      };
+
+    case actionTypes.FETCH_ALL_TIME_FAILED:
+      state.timeArr = [];
+      return {
+        ...state,
+      };
+
+    case actionTypes.FETCH_REQUIRED_DOCTOR_SUCCESS:
+      state.requiredInfoDoctor = action.data;
+      return {
+        ...state,
+      };
+
+    case actionTypes.FETCH_REQUIRED_DOCTOR_FAILED:
+      state.requiredInfoDoctor = [];
+      return {
+        ...state,
+      };
 
     default:
       return state;

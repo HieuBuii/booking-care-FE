@@ -6,6 +6,8 @@ import { LENGUAGES } from "../../../../utils/constant";
 import HomeHeader from "../../HomeHeader";
 import "./DetailDoctor.scss";
 import actionTypes from "../../../../store/actions/actionTypes";
+import DoctorSchedule from "./DoctorSchedule";
+import DoctorMore from "./DoctorMore";
 
 class DetailDoctor extends Component {
   constructor(props) {
@@ -29,7 +31,6 @@ class DetailDoctor extends Component {
 
   render() {
     let { infoDoctor } = this.state;
-    console.log(infoDoctor);
     let language = this.props.language;
     let valueVi = "",
       valueEn = "";
@@ -38,32 +39,56 @@ class DetailDoctor extends Component {
       valueEn = `${infoDoctor.positionData.valueEn}, ${infoDoctor.firstName} ${infoDoctor.lastName}`;
     }
     let dataContent =
-      infoDoctor && infoDoctor.Markdown ? infoDoctor.Markdown.contentHTML : "";
+      infoDoctor && infoDoctor.Doctor_intro
+        ? infoDoctor.Doctor_intro.contentHTML
+        : "";
     return (
       <>
         <HomeHeader />
 
         <div className="container detail-doctor-top">
-          <div className="detail-doctor-top-left">
-            <div
-              className="avatar-doctor"
-              style={{
-                backgroundImage:
-                  infoDoctor && infoDoctor.image
-                    ? `url(${infoDoctor.image})`
-                    : "",
-              }}
-            ></div>
+          <div className="content-detail-top">
+            <div className="detail-doctor-top-left">
+              <div
+                className="avatar-doctor"
+                style={{
+                  backgroundImage:
+                    infoDoctor && infoDoctor.image
+                      ? `url(${infoDoctor.image})`
+                      : "",
+                }}
+              ></div>
+            </div>
+            <div className="detail-doctor-top-right">
+              <p className="detail-doctor-title">
+                {language === LENGUAGES.VI ? valueVi : valueEn}
+              </p>
+              <p className="detail-doctor-des">
+                {infoDoctor && infoDoctor.Doctor_intro
+                  ? infoDoctor.Doctor_intro.description
+                  : ""}
+              </p>
+            </div>
           </div>
-          <div className="detail-doctor-top-right">
-            <p className="detail-doctor-title">
-              {language === LENGUAGES.VI ? valueVi : valueEn}
-            </p>
-            <p className="detail-doctor-des">
-              {infoDoctor && infoDoctor.Markdown
-                ? infoDoctor.Markdown.description
-                : ""}
-            </p>
+          <div className="schedule-doctor-container">
+            <div className="schedule-left">
+              <DoctorSchedule
+                idDoctor={
+                  this.state.infoDoctor && this.state.infoDoctor.id
+                    ? this.state.infoDoctor.id
+                    : -1
+                }
+              />
+            </div>
+            <div className="schedule-right">
+              <DoctorMore
+                idDoctor={
+                  this.state.infoDoctor && this.state.infoDoctor.id
+                    ? this.state.infoDoctor.id
+                    : -1
+                }
+              />
+            </div>
           </div>
         </div>
         <div className="detail-doctor-content">

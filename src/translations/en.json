@@ -34,6 +34,13 @@
       "manage-specialty": "Manage specialties",
       "handbook": "Handbook",
       "manage-handbook": "Manage handbook"
+    },
+    "doctor": {
+      "manage-schedule": "Manage Schedule",
+      "choose-doctor": "Choose doctor",
+      "choose-date": "Choose Date",
+      "save-schedule": "Save",
+      "max-patient": "Max number of patient"
     }
   },
   "manage-user": {
@@ -55,5 +62,54 @@
   "home-page": {
     "outstanding-doctor": "Outstanding Doctor",
     "view-more": "More infor"
+  },
+  "user-view": {
+    "detail-doctor": {
+      "schedule": "Schedule",
+      "no-schedule": "The doctor does not have an appointment during this time, please try choose another time !!",
+      "choose": "Choose ",
+      "booking": " and book (free) !!",
+      "address-clinic": "CLINIC'S ADDRESS:",
+      "price": "PRICE",
+      "payment": "Patients can pay in the form of: ",
+      "view-detail": "View detail",
+      "hide-detail": "Hide"
+    },
+    "booking-modal": {
+      "booking-success": "Booking is successed !!",
+      "booking-failed": "Booking is failed !!",
+      "info-booking": "Booking's information",
+      "full-name": "Fullname",
+      "address": "Address",
+      "date-of-birth": "Date of birth",
+      "phonenumber": "Phonenumber",
+      "email": "Email",
+      "sex": "Gender",
+      "reason": "Reasons for medical examination",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "free-booking": "Free Booking",
+      "price": "Price: ",
+      "verify-succeed": "Your appointment is confirmed!!",
+      "verify-failed": "Your appointment has been confirmed or does exits, please try again!!",
+      "click": "Click here ",
+      "go-to-home": "to go to the home page.",
+      "loading": "Loading data..."
+    }
+  },
+  "admin": {
+    "manage-doctor": {
+      "title": "Add more information of doctor",
+      "select-doctor": "Choose doctor",
+      "intro-doctor": "Introduction of doctor",
+      "add": "Add",
+      "save": "Save",
+      "price": "Price",
+      "payment": "Payment",
+      "province": "Province",
+      "address-clinic": "Clinic's address",
+      "name-clinic": "Clinic's name",
+      "note": "Note"
+    }
   }
 }
