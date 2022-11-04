@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import "./Login.scss";
-import { FormattedMessage } from "react-intl";
-import { handleLoginApi } from "../../services/userService";
+import { handleLoginApi, forgotPWService } from "../../services/userService";
+import { toast } from "react-toastify";
 
 class Login extends Component {
   constructor(props) {
@@ -66,13 +66,20 @@ class Login extends Component {
     }
   };
 
-  handleForgotPW = () => {
+  handleForgotPW = async () => {
     if (!this.state.username) {
       this.setState({
         errMessage: "Vui lòng nhập địa chỉ Email để tiếp tục !!",
       });
     } else {
-      console.log(this.state.username);
+      let res = await forgotPWService({ email: this.state.username });
+      if (res && res.errCode === 0) {
+        toast.success(
+          "Gửi yêu cầu thành công, vui lòng kiểm tra hộp thư Email để tiếp tục !!"
+        );
+      } else {
+        toast.error("Địa chỉ email không đúng, vui lòng thử lại !!");
+      }
     }
   };
 

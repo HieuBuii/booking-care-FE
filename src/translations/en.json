@@ -27,7 +27,7 @@
       "manage-doctor": "Manage doctors",
       "manage-admin": "Manage admins",
       "crud": "CRUD user",
-      "crud-redux": "CRUD Redux",
+      "crud-redux": "Manage Users",
       "clinic": "Clinics",
       "manage-clinic": "Manage clinics",
       "specialty": "Specialties",
@@ -110,7 +110,9 @@
       "verify-failed": "Your appointment has been confirmed or does exits, please try again!!",
       "click": "Click here ",
       "go-to-home": "to go to the home page.",
-      "loading": "Loading data..."
+      "loading": "Loading data...",
+      "forgot-succeed": "Verify the request is successful, please check your Email to receive a new password",
+      "forgot-failed": "Request verification failed, please try again"
     }
   },
   "admin": {

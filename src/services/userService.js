@@ -89,6 +89,14 @@ const changePWService = (data) => {
   return axios.post("/api/change-user-pw", data);
 };
 
+const forgotPWService = (data) => {
+  return axios.post("/api/forgot-pw", data);
+};
+
+const ConfirmForgotPWService = (data) => {
+  return axios.post("/api/verify-forgot-pw", data);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -112,4 +120,6 @@ export {
   deleteSpecialtyService,
   deleteScheduleDoctorService,
   changePWService,
+  forgotPWService,
+  ConfirmForgotPWService,
 };

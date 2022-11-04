@@ -26,8 +26,8 @@
       "manage-user": "Người dùng",
       "manage-doctor": "Quản lý bác sĩ",
       "manage-admin": "Quản lý admin",
-      "crud": "CRUD user",
-      "crud-redux": "CRUD Redux",
+      "crud": "Quản lý người dùng",
+      "crud-redux": "Quản lý người dùng",
       "clinic": "Phòng khám",
       "manage-clinic": "Quản lý phòng khám",
       "specialty": "Chuyên khoa",
@@ -110,7 +110,9 @@
       "verify-failed": "Lịch hẹn đã được xác nhận hoặc không tồn tại, vui lòng thử lại!!",
       "click": "Bấm vào đây ",
       "go-to-home": "để quay lại trang chủ.",
-      "loading": "Đang tải dữ liệu ..."
+      "loading": "Đang tải dữ liệu ...",
+      "forgot-succeed": "Xác minh yêu cầu thành công, vui lòng kiểm tra hộp thư Email để nhận mật khẩu mới",
+      "forgot-failed": "Xác minh yêu cầu thất bại, vui lòng thử lại"
     }
   },
   "admin": {
