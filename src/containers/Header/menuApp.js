@@ -20,6 +20,7 @@ export const adminMenu = [
       { name: "menu.admin.crud-redux", link: "/system/user-redux" },
       { name: "menu.admin.manage-doctor", link: "/system/manager-doctor" },
       { name: "menu.doctor.manage-schedule", link: "/doctor/manage-schedule" },
+      { name: "menu.admin.manage-password", link: "/system/manage-password" },
     ],
   },
   {
@@ -62,6 +63,7 @@ export const doctorMenu = [
         name: "menu.doctor.manage-schedule",
         link: "/doctor/manage-schedule",
       },
+      { name: "menu.admin.manage-password", link: "/system/manage-password" },
     ],
   },
 ];

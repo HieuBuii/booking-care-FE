@@ -85,6 +85,10 @@ const deleteSpecialtyService = (specialtyId) => {
   return axios.delete("/api/delete-specialty", { data: { id: specialtyId } });
 };
 
+const changePWService = (data) => {
+  return axios.post("/api/change-user-pw", data);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -107,4 +111,5 @@ export {
   editSpecialtyService,
   deleteSpecialtyService,
   deleteScheduleDoctorService,
+  changePWService,
 };

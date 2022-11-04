@@ -66,6 +66,16 @@ class Login extends Component {
     }
   };
 
+  handleForgotPW = () => {
+    if (!this.state.username) {
+      this.setState({
+        errMessage: "Vui lòng nhập địa chỉ Email để tiếp tục !!",
+      });
+    } else {
+      console.log(this.state.username);
+    }
+  };
+
   render() {
     return (
       <div className="login-background">
@@ -114,18 +124,19 @@ class Login extends Component {
                 Login
               </button>
             </div>
-            <div className="col-12">
-              <a href="#" className="login-forgot">
-                Forgot Your Password ?
-              </a>
+            <div
+              className="col-12 login-forgot"
+              onClick={() => this.handleForgotPW()}
+            >
+              Forgot Your Password ?
             </div>
-            <div className="col-12">
+            {/* <div className="col-12">
               <div className="login-social">
                 <div className="login-other">Or Login With:</div>
                 <i className="fab fa-facebook-f facebook"></i>
                 <i className="fab fa-google-plus-g google"></i>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

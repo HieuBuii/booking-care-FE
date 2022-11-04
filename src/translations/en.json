@@ -33,7 +33,8 @@
       "specialty": "Specialties",
       "manage-specialty": "Manage specialties",
       "handbook": "Handbook",
-      "manage-handbook": "Manage handbook"
+      "manage-handbook": "Manage handbook",
+      "manage-password": "Change password"
     },
     "doctor": {
       "manage-schedule": "Manage Schedule",
