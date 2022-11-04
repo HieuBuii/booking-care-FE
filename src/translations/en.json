@@ -40,7 +40,9 @@
       "choose-doctor": "Choose doctor",
       "choose-date": "Choose Date",
       "save-schedule": "Save",
-      "max-patient": "Max number of patient"
+      "max-patient": "Max number of patient",
+      "date": "Date",
+      "time": "Time"
     }
   },
   "manage-user": {

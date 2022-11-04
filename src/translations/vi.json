@@ -40,7 +40,9 @@
       "choose-doctor": "Chọn bác sĩ",
       "choose-date": "Chọn ngày",
       "save-schedule": "Lưu",
-      "max-patient": "Số bệnh nhân tối đa"
+      "max-patient": "Số bệnh nhân tối đa",
+      "date": "Ngày",
+      "time": "Thời gian"
     }
   },
   "manage-user": {

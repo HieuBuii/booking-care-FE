@@ -240,12 +240,10 @@ class ManageSpecialty extends Component {
               </div>
               <div className="col-12">
                 <button
-                  className="btn btn-primary px-3 btn-submit"
+                  className="btn-primary px-3 btn-submit"
                   onClick={(e) => this.handleSubmit(e)}
                 >
-                  <th>
-                    <FormattedMessage id="manage-specialty.save" />
-                  </th>
+                  <FormattedMessage id="manage-specialty.save" />
                 </button>
               </div>
             </form>

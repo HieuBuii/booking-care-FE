@@ -51,6 +51,12 @@ const getScheduleDoctorService = (doctorId, date) => {
   return axios.get(`/api/schedule-doctor?doctorId=${doctorId}&date=${date}`);
 };
 
+const deleteScheduleDoctorService = (scheduleId) => {
+  return axios.delete("/api/delete-schedule-doctor", {
+    data: { id: scheduleId },
+  });
+};
+
 const getExtraDoctorInfoService = (doctorId) => {
   return axios.get(`/api/extra-doctor-info?doctorId=${doctorId}`);
 };
@@ -100,4 +106,5 @@ export {
   getAllSpecialties,
   editSpecialtyService,
   deleteSpecialtyService,
+  deleteScheduleDoctorService,
 };

@@ -8,7 +8,12 @@ import DatePicker from "../../../components/Input/DatePicker";
 import "./ManageSchedule.scss";
 import { toast } from "react-toastify";
 import _ from "lodash";
-import { saveScheduleService } from "../../../services/userService";
+import {
+  saveScheduleService,
+  getScheduleDoctorService,
+  deleteScheduleDoctorService,
+} from "../../../services/userService";
+import moment from "moment";
 
 class ManageSchedule extends Component {
   constructor(props) {
@@ -18,11 +23,12 @@ class ManageSchedule extends Component {
       currentDate: "",
       listDoctors: [],
       rangeTime: [],
+      dataTime: [],
       // maxPatient: "1",
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.fetchAllDoctors();
     this.props.fetchAllTime();
   }
@@ -70,10 +76,22 @@ class ManageSchedule extends Component {
     this.setState({ selectedDoctor: selectedOption });
   };
 
-  handleOnchangeDatePicker = (date) => {
+  handleOnchangeDatePicker = async (date) => {
     this.setState({
       currentDate: date[0],
     });
+    let { selectedDoctor, currentDate } = this.state;
+    if (selectedDoctor && currentDate) {
+      let res = await getScheduleDoctorService(
+        selectedDoctor.value,
+        currentDate.getTime()
+      );
+      if (res && res.errCode === 0) {
+        this.setState({
+          timeData: res.data,
+        });
+      }
+    }
   };
 
   handleSelectSchedule = (time) => {
@@ -90,10 +108,6 @@ class ManageSchedule extends Component {
       rangeTime,
     });
   };
-
-  // handleSelectMaxPatient = (e) => {
-  //   this.setState({ maxPatient: e.target.value });
-  // };
 
   handleSubmit = async () => {
     let { rangeTime, selectedDoctor, currentDate } = this.state;
@@ -133,17 +147,54 @@ class ManageSchedule extends Component {
     });
     if (res && res.errCode === 0) {
       toast.success("Save Schedule Success !!");
+      let { selectedDoctor, currentDate } = this.state;
+      if (selectedDoctor && currentDate) {
+        let res = await getScheduleDoctorService(
+          selectedDoctor.value,
+          currentDate.getTime()
+        );
+        if (res && res.errCode === 0) {
+          this.setState({
+            timeData: res.data,
+          });
+        }
+      }
     } else {
       toast.error("Save Schedule Failed!!");
     }
   };
 
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  handleDeleteSchedule = async (item) => {
+    let res = await deleteScheduleDoctorService(item.id);
+    if (res && res.errCode === 0) {
+      toast.success("xoa ok");
+    } else {
+      toast.error("xoa failed");
+    }
+    let { selectedDoctor, currentDate } = this.state;
+    if (selectedDoctor && currentDate) {
+      let res = await getScheduleDoctorService(
+        selectedDoctor.value,
+        currentDate.getTime()
+      );
+      if (res && res.errCode === 0) {
+        this.setState({
+          timeData: res.data,
+        });
+      }
+    }
+  };
+
   render() {
-    let { rangeTime } = this.state;
+    let { rangeTime, timeData } = this.state;
     let { language } = this.props;
     return (
       <div className="manage-schedule-container">
-        <div className="title">
+        <div className="title mb-4">
           <FormattedMessage id="menu.doctor.manage-schedule" />
         </div>
         <div className="container">
@@ -169,33 +220,6 @@ class ManageSchedule extends Component {
                 minDate={new Date().setHours(0, 0, 0, 0)}
               />
             </div>
-            {/* <div className="col-2 form-group content-top-right">
-              <label>
-                <FormattedMessage id="menu.doctor.max-patient" />
-              </label>
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                style={{ padding: "7px 10px" }}
-                value={this.state.maxPatient}
-                onChange={(e) => {
-                  this.handleSelectMaxPatient(e);
-                }}
-              >
-                <option value="1" selected>
-                  1
-                </option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
-            </div> */}
           </div>
         </div>
         <div className="content-bottom">
@@ -229,6 +253,61 @@ class ManageSchedule extends Component {
               <FormattedMessage id="menu.doctor.save-schedule" />
             </button>
           </div>
+        </div>
+        <div className="users-container container my-5">
+          <table id="customers">
+            <thead>
+              <tr>
+                <th>
+                  <FormattedMessage id="menu.doctor.date" />
+                </th>
+                <th>
+                  <FormattedMessage id="menu.doctor.time" />
+                </th>
+                <th>
+                  <FormattedMessage id="manage-specialty.options" />
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {timeData &&
+                timeData.length > 0 &&
+                timeData.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>
+                        {this.props.language === LENGUAGES.VI
+                          ? this.capitalizeFirstLetter(
+                              moment
+                                .unix(+item.date / 1000)
+                                .format("dddd - DD/MM/YYYY")
+                            )
+                          : moment
+                              .unix(+item.date / 1000)
+                              .locale("en")
+                              .format("ddd - MM/DD/YYYY")}
+                      </td>
+                      <td>
+                        {this.props.language === LENGUAGES.VI
+                          ? item.timeTypeData.valueVi
+                          : item.timeTypeData.valueEn}
+                      </td>
+                      <td>
+                        <div>
+                          <button
+                            className="btn btn-delete"
+                            onClick={() => this.handleDeleteSchedule(item)}
+                          >
+                            <i className="fas fa-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
         </div>
       </div>
     );
