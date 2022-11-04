@@ -63,6 +63,22 @@ const postVerifyPatientBooking = (data) => {
   return axios.post("/api/verify-patient-booking", data);
 };
 
+const saveSpecialtyService = (data) => {
+  return axios.post("/api/create-specialty", data);
+};
+
+const getAllSpecialties = () => {
+  return axios.get(`/api/get-all-specialty`);
+};
+
+const editSpecialtyService = (data) => {
+  return axios.put("/api/edit-specialty", data);
+};
+
+const deleteSpecialtyService = (specialtyId) => {
+  return axios.delete("/api/delete-specialty", { data: { id: specialtyId } });
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -80,4 +96,8 @@ export {
   getExtraDoctorInfoService,
   savePatientBooking,
   postVerifyPatientBooking,
+  saveSpecialtyService,
+  getAllSpecialties,
+  editSpecialtyService,
+  deleteSpecialtyService,
 };

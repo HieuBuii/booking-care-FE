@@ -13,7 +13,7 @@
   },
 
   "banner": {
-    "base": "MEDICAL PLASFORM",
+    "base": "MEDICAL PLATFORM",
     "health-care": "COMPREHENSIVE HEALTH CARE",
     "search": "Find a clinic",
     "specialist": "Specializations",
@@ -58,6 +58,19 @@
     "upload": "Upload image",
     "save": "Add user",
     "edit": "Save change"
+  },
+  "manage-specialty": {
+    "title": "Manage specialty",
+    "name-specialty": "Specialty's name",
+    "image-specialty": "Specialty's image",
+    "save": "Save",
+    "order": "Numerical order",
+    "options": "Options",
+    "save-succeed": "Save changes successfully!!",
+    "save-failed": "Saving changes failed, please try again !!",
+    "fill-all": "Please complete all information",
+    "delete-succeed": "Delete specialty information successfully !!",
+    "delete-failed": "Delete specialty information failed, please try again !!"
   },
   "home-page": {
     "outstanding-doctor": "Outstanding Doctor",
