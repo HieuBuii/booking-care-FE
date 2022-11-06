@@ -22,7 +22,8 @@ class ManageSpecialty extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nameSpecialty: "",
+      nameVi: "",
+      nameEn: "",
       image: "",
       previewImg: "",
       contentHTML: "",
@@ -64,9 +65,9 @@ class ManageSpecialty extends Component {
     });
   };
 
-  handleChangeInput = (e) => {
+  handleChangeInput = (e, id) => {
     let copyState = { ...this.state };
-    copyState.nameSpecialty = e.target.value;
+    copyState[id] = e.target.value;
     this.setState({
       ...copyState,
     });
@@ -79,7 +80,8 @@ class ManageSpecialty extends Component {
       if (isValid) {
         let res = await saveSpecialtyService({
           image: this.state.image,
-          name: this.state.nameSpecialty,
+          nameVi: this.state.nameVi,
+          nameEn: this.state.nameEn,
           contentHTML: this.state.contentHTML,
           contentMarkdown: this.state.contentMarkdown,
         });
@@ -88,7 +90,8 @@ class ManageSpecialty extends Component {
             <FormattedMessage id="manage-specialty.save-succeed" />
           );
           this.setState({
-            nameSpecialty: "",
+            nameVi: "",
+            nameEn: "",
             image: "",
             previewImg: "",
             contentHTML: "",
@@ -106,7 +109,8 @@ class ManageSpecialty extends Component {
       if (isValid) {
         let res = await editSpecialtyService({
           image: this.state.image,
-          name: this.state.nameSpecialty,
+          nameVi: this.state.nameVi,
+          nameEn: this.state.nameEn,
           contentHTML: this.state.contentHTML,
           contentMarkdown: this.state.contentMarkdown,
           id: this.state.idSpecialty,
@@ -116,7 +120,8 @@ class ManageSpecialty extends Component {
             <FormattedMessage id="manage-specialty.save-succeed" />
           );
           this.setState({
-            nameSpecialty: "",
+            nameVi: "",
+            nameEn: "",
             image: "",
             previewImg: "",
             contentHTML: "",
@@ -140,7 +145,7 @@ class ManageSpecialty extends Component {
 
   validInput = () => {
     let isValid = true;
-    let arr = ["nameSpecialty", "image", "contentHTML", "contentMarkdown"];
+    let arr = ["nameVi", "nameEn", "image", "contentHTML", "contentMarkdown"];
     for (let i = 0; i < arr.length; i++) {
       if (!this.state[arr[i]]) {
         isValid = false;
@@ -153,7 +158,8 @@ class ManageSpecialty extends Component {
 
   handleEditSpecialty = (item) => {
     this.setState({
-      nameSpecialty: item.name,
+      nameVi: item.nameVi,
+      nameEn: item.nameEn,
       image: item.image,
       previewImg: item.image,
       contentHTML: item.contentHTML,
@@ -194,18 +200,29 @@ class ManageSpecialty extends Component {
           </div>
           <div className="manage-body container">
             <form className="row g-3 mt-5">
-              <div className="col-md-6">
+              <div className="col-md-4">
                 <label className="form-label">
-                  <FormattedMessage id="manage-specialty.name-specialty" />
+                  <FormattedMessage id="manage-specialty.nameVi-specialty" />
                 </label>
                 <input
                   type="nameSpecialty"
                   className="form-control"
-                  onChange={(e) => this.handleChangeInput(e)}
-                  value={this.state.nameSpecialty}
+                  onChange={(e) => this.handleChangeInput(e, "nameVi")}
+                  value={this.state.nameVi}
                 />
               </div>
-              <div className="col-md-6 manage-specialty-img">
+              <div className="col-md-4">
+                <label className="form-label">
+                  <FormattedMessage id="manage-specialty.nameEn-specialty" />
+                </label>
+                <input
+                  type="nameSpecialty"
+                  className="form-control"
+                  onChange={(e) => this.handleChangeInput(e, "nameEn")}
+                  value={this.state.nameEn}
+                />
+              </div>
+              <div className="col-md-4 manage-specialty-img">
                 <label className="form-label">
                   <FormattedMessage id="manage-specialty.image-specialty" />
                 </label>
@@ -257,7 +274,10 @@ class ManageSpecialty extends Component {
                   <FormattedMessage id="manage-specialty.order" />
                 </th>
                 <th>
-                  <FormattedMessage id="manage-specialty.name-specialty" />
+                  <FormattedMessage id="manage-specialty.nameVi-specialty" />
+                </th>
+                <th>
+                  <FormattedMessage id="manage-specialty.nameEn-specialty" />
                 </th>
                 <th>
                   <FormattedMessage id="manage-specialty.options" />
@@ -272,7 +292,8 @@ class ManageSpecialty extends Component {
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.name}</td>
+                      <td>{item.nameVi}</td>
+                      <td>{item.nameEn}</td>
                       <td>
                         <div>
                           <button

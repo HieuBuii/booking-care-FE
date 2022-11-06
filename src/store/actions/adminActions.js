@@ -9,6 +9,7 @@ import {
   getAllDoctorService,
   saveInfoDoctorService,
   getInfoDoctorService,
+  getAllSpecialties,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 
@@ -312,18 +313,22 @@ export const fetchRequiredDoctorStart = () => {
       let priceRes = await getAllCodeService("PRICE");
       let proviceRes = await getAllCodeService("PROVINCE");
       let paymentRes = await getAllCodeService("PAYMENT");
+      let specialtyRes = await getAllSpecialties();
       if (
         priceRes &&
         priceRes.errCode === 0 &&
         proviceRes &&
         proviceRes.errCode === 0 &&
         paymentRes &&
-        paymentRes.errCode === 0
+        paymentRes.errCode === 0 &&
+        specialtyRes &&
+        specialtyRes.errCode === 0
       ) {
         let data = {
           priceId: priceRes.data,
           paymentId: paymentRes.data,
           proviceId: proviceRes.data,
+          specialtyId: specialtyRes.data,
         };
         dispatch(fetchRequiredDoctorSuccess(data));
       } else {

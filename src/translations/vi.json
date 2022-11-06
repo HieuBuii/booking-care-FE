@@ -64,7 +64,8 @@
   },
   "manage-specialty": {
     "title": "Quản lý chuyên khoa",
-    "name-specialty": "Tên chuyên khoa",
+    "nameVi-specialty": "Tên chuyên khoa (Vi)",
+    "nameEn-specialty": "Tên chuyên khoa (En)",
     "image-specialty": "Ảnh chuyên khoa",
     "save": "Lưu",
     "order": "Số thứ tự",
@@ -77,7 +78,8 @@
   },
   "home-page": {
     "outstanding-doctor": "Bác sĩ nổi bật",
-    "view-more": "Xem thêm"
+    "view-more": "Xem thêm",
+    "specialist": "Chuyên khoa phổ biến"
   },
   "user-view": {
     "detail-doctor": {
@@ -127,7 +129,9 @@
       "province": "Tỉnh thành",
       "address-clinic": "Địa chỉ phòng khám",
       "name-clinic": "Tên phòng khám",
-      "note": "Ghi chú"
+      "note": "Ghi chú",
+      "specialty": "Chọn chuyên khoa",
+      "clinic": "Chọn phòng khám"
     }
   }
 }

@@ -7,6 +7,7 @@ import { LENGUAGES } from "../../../../utils/constant";
 import _ from "lodash";
 import moment from "moment";
 import localization from "moment/locale/vi";
+import { Link } from "react-router-dom";
 
 class DoctorInfo extends Component {
   constructor(props) {
@@ -18,20 +19,22 @@ class DoctorInfo extends Component {
 
   async componentDidMount() {
     let res = await getInfoDoctorService(this.props.idDoctor);
-    this.setState({
-      infoDoctor: res.data,
-    });
+    if (res && res.errCode === 0) {
+      this.setState({
+        infoDoctor: res.data,
+      });
+    }
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    // if (prevProps.idDoctor !== this.props.idDoctor) {
-    //   let res = await getInfoDoctorService(this.props.idDoctor);
-    //   if (res && res.errCode === 0) {
-    //     this.setState({
-    //       infoDoctor: res.data,
-    //     });
-    //   }
-    // }
+    if (prevProps.idDoctor !== this.props.idDoctor) {
+      let res = await getInfoDoctorService(this.props.idDoctor);
+      if (res && res.errCode === 0) {
+        this.setState({
+          infoDoctor: res.data,
+        });
+      }
+    }
   }
 
   capitalizeFirstLetter(string) {
@@ -66,7 +69,7 @@ class DoctorInfo extends Component {
 
   render() {
     let { infoDoctor } = this.state;
-    let { language, timeData } = this.props;
+    let { language, timeData, isShowPrice, isShowMore, idDoctor } = this.props;
     let valueVi = "",
       valueEn = "";
     if (infoDoctor && infoDoctor.positionData) {
@@ -102,18 +105,27 @@ class DoctorInfo extends Component {
             ) : (
               <>{this.showTime(timeData)}</>
             )}
-            <div className="doctor-price">
-              <FormattedMessage id="user-view.booking-modal.price" />{" "}
-              {language === LENGUAGES.VI
-                ? infoDoctor &&
-                  infoDoctor.Doctor_info &&
-                  infoDoctor.Doctor_info.priceTypeData &&
-                  infoDoctor.Doctor_info.priceTypeData.valueVi
-                : infoDoctor &&
-                  infoDoctor.Doctor_info &&
-                  infoDoctor.Doctor_info.priceTypeData &&
-                  infoDoctor.Doctor_info.priceTypeData.valueEn}
-            </div>
+            {isShowPrice === true && (
+              <div className="doctor-price">
+                <FormattedMessage id="user-view.booking-modal.price" />{" "}
+                {language === LENGUAGES.VI
+                  ? infoDoctor &&
+                    infoDoctor.Doctor_info &&
+                    infoDoctor.Doctor_info.priceTypeData &&
+                    infoDoctor.Doctor_info.priceTypeData.valueVi
+                  : infoDoctor &&
+                    infoDoctor.Doctor_info &&
+                    infoDoctor.Doctor_info.priceTypeData &&
+                    infoDoctor.Doctor_info.priceTypeData.valueEn}
+              </div>
+            )}
+            {isShowMore === true && (
+              <div className="redirect-doctorInfo">
+                <Link to={`/detail-doctor/${idDoctor}`}>
+                  <FormattedMessage id="home-page.view-more" />
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </>

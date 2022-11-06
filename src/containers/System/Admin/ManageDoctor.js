@@ -8,6 +8,8 @@ import "react-markdown-editor-lite/lib/index.css";
 import Select from "react-select";
 import "./ManageDoctor.scss";
 import { FormattedMessage } from "react-intl";
+import { saveInfoDoctorService } from "../../../services/userService";
+import { toast } from "react-toastify";
 
 const mdParser = new MarkdownIt(/* Doctor_intro-it options */);
 
@@ -28,9 +30,14 @@ class ManageDoctor extends Component {
       listPrice: [],
       listPayment: [],
       listProvice: [],
+      listSpecialty: [],
+      listClinic: [],
+
       selectedPrice: "",
       selectedPayment: "",
       selectedProvice: "",
+      selectedSpecialty: "",
+      selectedClinic: "",
       nameClinic: "",
       addressClinic: "",
       note: "",
@@ -75,6 +82,18 @@ class ManageDoctor extends Component {
       );
       this.setState({
         listProvice: optionsProvice,
+      });
+      let optionsSpecialty = this.buildDataForSelectSpecialty(
+        this.props.requiredInfoDoctor.specialtyId
+      );
+      this.setState({
+        listSpecialty: optionsSpecialty,
+      });
+      let optionsClinic = this.buildDataForSelectClinic(
+        this.props.requiredInfoDoctor.clinicId
+      );
+      this.setState({
+        listClinic: optionsClinic ? optionsClinic : "",
       });
     }
 
@@ -126,9 +145,12 @@ class ManageDoctor extends Component {
         this.props.infoDoctor.Doctor_info &&
         this.props.infoDoctor.Doctor_info.paymentId &&
         this.props.infoDoctor.Doctor_info.priceId &&
-        this.props.infoDoctor.Doctor_info.proviceId
+        this.props.infoDoctor.Doctor_info.proviceId &&
+        this.props.infoDoctor.Doctor_info.specialtyId
+        // &&this.props.infoDoctor.Doctor_info.clinicId
       ) {
-        let { listPayment, listPrice, listProvice } = this.state;
+        let { listPayment, listPrice, listProvice, listSpecialty, listClinic } =
+          this.state;
         let findPayment = listPayment.find(
           (item) => item.value === this.props.infoDoctor.Doctor_info.paymentId
         );
@@ -141,11 +163,21 @@ class ManageDoctor extends Component {
           (item) => item.value === this.props.infoDoctor.Doctor_info.proviceId
         );
         this.setState({ selectedProvice: findProvince });
+        let findSpecialty = listSpecialty.find(
+          (item) => item.value === this.props.infoDoctor.Doctor_info.specialtyId
+        );
+        this.setState({ selectedSpecialty: findSpecialty });
+        let findClinic = listClinic.find(
+          (item) => item.value === this.props.infoDoctor.Doctor_info.clinicId
+        );
+        this.setState({ selectedClinic: findClinic });
       } else {
         this.setState({
           selectedPayment: "",
           selectedPrice: "",
           selectedProvice: "",
+          selectedClinic: "",
+          selectedSpecialty: "",
         });
       }
     }
@@ -160,6 +192,39 @@ class ManageDoctor extends Component {
           this.props.language === LENGUAGES.VI
             ? `${item.lastName} ${item.firstName}`
             : `${item.firstName} ${item.lastName}`;
+        let value = item.id;
+        obj.value = value;
+        obj.label = label;
+        listOptions.push(obj);
+      });
+    }
+    return listOptions;
+  };
+
+  buildDataForSelectSpecialty = (inputData) => {
+    let listOptions = [];
+    if (inputData && inputData.length > 0) {
+      inputData.map((item, index) => {
+        let obj = {};
+        let label =
+          this.props.language === LENGUAGES.VI
+            ? `${item.nameVi}`
+            : `${item.nameEn}`;
+        let value = item.id;
+        obj.value = value;
+        obj.label = label;
+        listOptions.push(obj);
+      });
+    }
+    return listOptions;
+  };
+
+  buildDataForSelectClinic = (inputData) => {
+    let listOptions = [];
+    if (inputData && inputData.length > 0) {
+      inputData.map((item, index) => {
+        let obj = {};
+        let label = `${item.name}`;
         let value = item.id;
         obj.value = value;
         obj.label = label;
@@ -218,7 +283,7 @@ class ManageDoctor extends Component {
   };
 
   handleSaveDoctor = async () => {
-    await this.props.saveInfoDoctor({
+    let res = await saveInfoDoctorService({
       contentHTML: this.state.contentHTML,
       contentMarkdown: this.state.contentMarkdown,
       description: this.state.doctorDesc,
@@ -229,20 +294,31 @@ class ManageDoctor extends Component {
       nameClinic: this.state.nameClinic,
       addressClinic: this.state.addressClinic,
       note: this.state.note,
+      clinicId:
+        this.state.selectedClinic && this.state.selectedClinic.value
+          ? this.state.selectedClinic.value
+          : "",
+      specialtyId: this.state.selectedSpecialty.value,
     });
-    // if (res && res.errCode === 0) {
-    //   this.setState({
-    //     contentHTML: "",
-    //     contentMarkdown: "",
-    //     doctorDesc: "",
-    //     selectedPrice: "",
-    //     selectedPayment: "",
-    //     selectedProvice: "",
-    //     nameClinic: "",
-    //     addressClinic: "",
-    //     note: "",
-    //   });
-    // }
+    if (res && res.errCode === 0) {
+      toast.success("Lưu thông tin thành công !!");
+      this.setState({
+        contentHTML: "",
+        contentMarkdown: "",
+        doctorDesc: "",
+        selectedPrice: "",
+        selectedPayment: "",
+        selectedProvice: "",
+        nameClinic: "",
+        addressClinic: "",
+        note: "",
+        selectedDoctor: "",
+        selectedClinic: "",
+        selectedSpecialty: "",
+      });
+    } else {
+      toast.error("Lưu thông tin thất bại, vui lòng thử lại !!");
+    }
   };
 
   render() {
@@ -280,7 +356,7 @@ class ManageDoctor extends Component {
           </div>
         </div>
         <div className="required-info row">
-          <div className="col-4 form-group">
+          <div className="col-3 form-group">
             <label>
               <FormattedMessage id="admin.manage-doctor.price" />
             </label>
@@ -292,7 +368,7 @@ class ManageDoctor extends Component {
               placeholder={<FormattedMessage id="admin.manage-doctor.price" />}
             />
           </div>
-          <div className="col-4 form-group">
+          <div className="col-3 form-group">
             <label>
               <FormattedMessage id="admin.manage-doctor.payment" />
             </label>
@@ -307,7 +383,7 @@ class ManageDoctor extends Component {
             />
           </div>
 
-          <div className="col-4 form-group">
+          <div className="col-3 form-group">
             <label>
               <FormattedMessage id="admin.manage-doctor.province" />
             </label>
@@ -322,7 +398,36 @@ class ManageDoctor extends Component {
             />
           </div>
 
-          <div className="col-4 form-group my-4">
+          <div className="col-3 form-group">
+            <label>
+              <FormattedMessage id="admin.manage-doctor.specialty" />
+            </label>
+            <Select
+              value={this.state.selectedSpecialty}
+              onChange={this.handleChangeSelectInfoDoctor}
+              options={this.state.listSpecialty}
+              name={"selectedSpecialty"}
+              placeholder={
+                <FormattedMessage id="admin.manage-doctor.specialty" />
+              }
+            />
+          </div>
+
+          <div className="col-3 form-group clinic-block">
+            <label>
+              <FormattedMessage id="admin.manage-doctor.clinic" />
+            </label>
+            <Select
+              style={{ lineHight: "100%" }}
+              value={this.state.selectedClinic}
+              onChange={this.handleChangeSelectInfoDoctor}
+              options={this.state.listClinic}
+              name={"selectedClinic"}
+              placeholder={<FormattedMessage id="admin.manage-doctor.clinic" />}
+            />
+          </div>
+
+          <div className="col-3 form-group my-4">
             <label>
               <FormattedMessage id="admin.manage-doctor.name-clinic" />
             </label>
@@ -333,7 +438,7 @@ class ManageDoctor extends Component {
             />
           </div>
 
-          <div className="col-4 form-group my-4">
+          <div className="col-3 form-group my-4">
             <label>
               <FormattedMessage id="admin.manage-doctor.address-clinic" />
             </label>
@@ -344,7 +449,7 @@ class ManageDoctor extends Component {
             />
           </div>
 
-          <div className="col-4 form-group my-4">
+          <div className="col-3 form-group my-4">
             <label>
               <FormattedMessage id="admin.manage-doctor.note" />
             </label>

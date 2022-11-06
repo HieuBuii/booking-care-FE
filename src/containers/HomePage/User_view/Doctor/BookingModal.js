@@ -225,6 +225,8 @@ class BookingModal extends Component {
                 }
                 timeData={dataTime}
                 isShowDesc={false}
+                isShowPrice={true}
+                isShowMore={false}
               />
             </div>
             <div className="row container">

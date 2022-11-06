@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
 import * as actions from "../../../../store/actions";
 import { LENGUAGES } from "../../../../utils/constant";
 import HomeHeader from "../../HomeHeader";
 import "./DetailDoctor.scss";
-import actionTypes from "../../../../store/actions/actionTypes";
 import DoctorSchedule from "./DoctorSchedule";
 import DoctorMore from "./DoctorMore";
+import Footer from "../../Section/Footer";
 
 class DetailDoctor extends Component {
   constructor(props) {
@@ -92,11 +91,12 @@ class DetailDoctor extends Component {
           </div>
         </div>
         <div className="detail-doctor-content">
-          <div className="container">
+          <div className="container detail-content">
             <div dangerouslySetInnerHTML={{ __html: dataContent }} />
           </div>
         </div>
         <div className="detail-doctor-comments"></div>
+        <Footer />
       </>
     );
   }

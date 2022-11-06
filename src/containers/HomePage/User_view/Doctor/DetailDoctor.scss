@@ -47,9 +47,19 @@
 }
 
 .detail-doctor-content {
+  h3 {
+    font-size: 18px;
+    color: dodgerblue;
+  }
   margin-top: 20px;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   background-color: #f9f9f9;
   padding: 20px;
+  .detail-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px #20212447;
+  }
 }

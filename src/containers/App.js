@@ -20,6 +20,7 @@ import DetailDoctor from "./HomePage/User_view/Doctor/DetailDoctor";
 import Doctor from "../routes/Doctor";
 import VerifyEmail from "./HomePage/User_view/VerifyEmail";
 import ForgotPW from "./System/Admin/ForgotPW";
+import DetailSpecialty from "./HomePage/User_view/Specialty/DetailSpecialty";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -64,6 +65,10 @@ class App extends Component {
                     component={userIsAuthenticated(Doctor)}
                   />
                   <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
+                  <Route
+                    path={path.DETAIL_SPECIALTY}
+                    component={DetailSpecialty}
+                  />
                   <Route
                     path={path.VERIFY_BOOKING_EMAIL}
                     component={VerifyEmail}

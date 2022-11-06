@@ -64,7 +64,8 @@
   },
   "manage-specialty": {
     "title": "Manage specialty",
-    "name-specialty": "Specialty's name",
+    "nameVi-specialty": "Specialty's name (Vi)",
+    "nameEn-specialty": "Specialty's name (En)",
     "image-specialty": "Specialty's image",
     "save": "Save",
     "order": "Numerical order",
@@ -77,7 +78,8 @@
   },
   "home-page": {
     "outstanding-doctor": "Outstanding Doctor",
-    "view-more": "More infor"
+    "view-more": "More Infor",
+    "specialist": "Popular Specialist"
   },
   "user-view": {
     "detail-doctor": {
@@ -127,7 +129,9 @@
       "province": "Province",
       "address-clinic": "Clinic's address",
       "name-clinic": "Clinic's name",
-      "note": "Note"
+      "note": "Note",
+      "specialty": "Choose specialist",
+      "clinic": "Choose clinic"
     }
   }
 }

@@ -26,6 +26,17 @@ class DoctorSchedule extends Component {
     this.setState({
       listDays,
     });
+    if (listDays && listDays.length > 0) {
+      let res = await getScheduleDoctorService(
+        this.props.idDoctor,
+        listDays[0].value
+      );
+      if (res && res.errCode === 0) {
+        this.setState({
+          availabelTime: res.data ? res.data : [],
+        });
+      }
+    }
   }
 
   async componentDidUpdate(prevProps, prevState) {

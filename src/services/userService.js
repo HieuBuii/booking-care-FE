@@ -97,6 +97,12 @@ const ConfirmForgotPWService = (data) => {
   return axios.post("/api/verify-forgot-pw", data);
 };
 
+const getSpecialyById = (data) => {
+  return axios.get(
+    `/api/specialty-by-id?id=${data.id}&location=${data.location}`
+  );
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -122,4 +128,5 @@ export {
   changePWService,
   forgotPWService,
   ConfirmForgotPWService,
+  getSpecialyById,
 };
