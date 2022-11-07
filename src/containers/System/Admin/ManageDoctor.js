@@ -38,8 +38,8 @@ class ManageDoctor extends Component {
       selectedProvice: "",
       selectedSpecialty: "",
       selectedClinic: "",
-      nameClinic: "",
-      addressClinic: "",
+      // nameClinic: "",
+      // addressClinic: "",
       note: "",
     };
   }
@@ -121,18 +121,18 @@ class ManageDoctor extends Component {
           this.props.infoDoctor.Doctor_intro.description
             ? this.props.infoDoctor.Doctor_intro.description
             : "",
-        addressClinic:
-          this.props.infoDoctor &&
-          this.props.infoDoctor.Doctor_info &&
-          this.props.infoDoctor.Doctor_info.addressClinic
-            ? this.props.infoDoctor.Doctor_info.addressClinic
-            : "",
-        nameClinic:
-          this.props.infoDoctor &&
-          this.props.infoDoctor.Doctor_info &&
-          this.props.infoDoctor.Doctor_info.nameClinic
-            ? this.props.infoDoctor.Doctor_info.nameClinic
-            : "",
+        // addressClinic:
+        //   this.props.infoDoctor &&
+        //   this.props.infoDoctor.Doctor_info &&
+        //   this.props.infoDoctor.Doctor_info.addressClinic
+        //     ? this.props.infoDoctor.Doctor_info.addressClinic
+        //     : "",
+        // nameClinic:
+        //   this.props.infoDoctor &&
+        //   this.props.infoDoctor.Doctor_info &&
+        //   this.props.infoDoctor.Doctor_info.nameClinic
+        //     ? this.props.infoDoctor.Doctor_info.nameClinic
+        //     : "",
         note:
           this.props.infoDoctor &&
           this.props.infoDoctor.Doctor_info &&
@@ -195,7 +195,7 @@ class ManageDoctor extends Component {
         let value = item.id;
         obj.value = value;
         obj.label = label;
-        listOptions.push(obj);
+        return listOptions.push(obj);
       });
     }
     return listOptions;
@@ -213,7 +213,7 @@ class ManageDoctor extends Component {
         let value = item.id;
         obj.value = value;
         obj.label = label;
-        listOptions.push(obj);
+        return listOptions.push(obj);
       });
     }
     return listOptions;
@@ -228,7 +228,7 @@ class ManageDoctor extends Component {
         let value = item.id;
         obj.value = value;
         obj.label = label;
-        listOptions.push(obj);
+        return listOptions.push(obj);
       });
     }
     return listOptions;
@@ -246,7 +246,7 @@ class ManageDoctor extends Component {
         let value = item.keyMap;
         obj.value = value;
         obj.label = label;
-        listOptions.push(obj);
+        return listOptions.push(obj);
       });
     }
     return listOptions;
@@ -291,8 +291,8 @@ class ManageDoctor extends Component {
       priceId: this.state.selectedPrice.value,
       paymentId: this.state.selectedPayment.value,
       proviceId: this.state.selectedProvice.value,
-      nameClinic: this.state.nameClinic,
-      addressClinic: this.state.addressClinic,
+      // nameClinic: this.state.nameClinic,
+      // addressClinic: this.state.addressClinic,
       note: this.state.note,
       clinicId: this.state.selectedClinic.value,
       specialtyId: this.state.selectedSpecialty.value,
@@ -306,8 +306,8 @@ class ManageDoctor extends Component {
         selectedPrice: "",
         selectedPayment: "",
         selectedProvice: "",
-        nameClinic: "",
-        addressClinic: "",
+        // nameClinic: "",
+        // addressClinic: "",
         note: "",
         selectedDoctor: "",
         selectedClinic: "",
@@ -353,7 +353,7 @@ class ManageDoctor extends Component {
           </div>
         </div>
         <div className="required-info row">
-          <div className="col-3 form-group">
+          <div className="col-4 form-group">
             <label>
               <FormattedMessage id="admin.manage-doctor.price" />
             </label>
@@ -365,7 +365,7 @@ class ManageDoctor extends Component {
               placeholder={<FormattedMessage id="admin.manage-doctor.price" />}
             />
           </div>
-          <div className="col-3 form-group">
+          <div className="col-4 form-group">
             <label>
               <FormattedMessage id="admin.manage-doctor.payment" />
             </label>
@@ -380,7 +380,7 @@ class ManageDoctor extends Component {
             />
           </div>
 
-          <div className="col-3 form-group">
+          <div className="col-4 form-group">
             <label>
               <FormattedMessage id="admin.manage-doctor.province" />
             </label>
@@ -395,7 +395,7 @@ class ManageDoctor extends Component {
             />
           </div>
 
-          <div className="col-3 form-group">
+          <div className="col-4 form-group">
             <label>
               <FormattedMessage id="admin.manage-doctor.specialty" />
             </label>
@@ -410,7 +410,7 @@ class ManageDoctor extends Component {
             />
           </div>
 
-          <div className="col-3 form-group clinic-block">
+          <div className="col-4 form-group clinic-block">
             <label>
               <FormattedMessage id="admin.manage-doctor.clinic" />
             </label>
@@ -424,7 +424,7 @@ class ManageDoctor extends Component {
             />
           </div>
 
-          <div className="col-3 form-group my-4">
+          {/* <div className="col-4 form-group my-4">
             <label>
               <FormattedMessage id="admin.manage-doctor.name-clinic" />
             </label>
@@ -435,7 +435,7 @@ class ManageDoctor extends Component {
             />
           </div>
 
-          <div className="col-3 form-group my-4">
+          <div className="col-4 form-group my-4">
             <label>
               <FormattedMessage id="admin.manage-doctor.address-clinic" />
             </label>
@@ -444,9 +444,9 @@ class ManageDoctor extends Component {
               onChange={(e) => this.handleChangeInput(e, "addressClinic")}
               value={this.state.addressClinic}
             />
-          </div>
+          </div> */}
 
-          <div className="col-3 form-group my-4">
+          <div className="col-4 form-group my-4">
             <label>
               <FormattedMessage id="admin.manage-doctor.note" />
             </label>

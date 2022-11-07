@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
-import * as actions from "../../../../store/actions";
 import { LENGUAGES } from "../../../../utils/constant";
 import "./DoctorMore.scss";
-import actionTypes from "../../../../store/actions/actionTypes";
 import { getExtraDoctorInfoService } from "../../../../services/userService";
-import moment, { lang } from "moment";
-import localization from "moment/locale/vi";
 
 class DoctorMore extends Component {
   constructor(props) {
@@ -19,7 +15,6 @@ class DoctorMore extends Component {
   }
 
   async componentDidMount() {
-    let { language } = this.props;
     let res = await getExtraDoctorInfoService(this.props.idDoctor);
     this.setState({
       doctorExtraInfo: res.data,
@@ -54,13 +49,17 @@ class DoctorMore extends Component {
             <FormattedMessage id="user-view.detail-doctor.address-clinic" />
           </div>
           <div className="content-up-specialty">
-            {doctorExtraInfo && doctorExtraInfo.nameClinic
-              ? doctorExtraInfo.nameClinic
+            {doctorExtraInfo &&
+            doctorExtraInfo.doctorClinicData &&
+            doctorExtraInfo.doctorClinicData.name
+              ? doctorExtraInfo.doctorClinicData.name
               : ""}
           </div>
           <div className="content-up-address">
-            {doctorExtraInfo && doctorExtraInfo.addressClinic
-              ? doctorExtraInfo.addressClinic
+            {doctorExtraInfo &&
+            doctorExtraInfo.doctorClinicData &&
+            doctorExtraInfo.doctorClinicData.address
+              ? doctorExtraInfo.doctorClinicData.address
               : ""}
           </div>
         </div>

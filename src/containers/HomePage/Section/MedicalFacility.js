@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getAllClinic } from "../../../services/userService";
-import { LENGUAGES } from "../../../utils/constant";
-import { FormattedMessage } from "react-intl";
 import { withRouter } from "react-router";
 
 import Slider from "react-slick";

@@ -66,7 +66,7 @@ class ManageSchedule extends Component {
         let value = item.id;
         obj.value = value;
         obj.label = label;
-        listOptions.push(obj);
+        return listOptions.push(obj);
       });
     }
     return listOptions;
@@ -133,7 +133,7 @@ class ManageSchedule extends Component {
           obj.doctorId = selectedDoctor.value;
           obj.date = formatDate;
           obj.timeType = item.keyMap;
-          result.push(obj);
+          return result.push(obj);
         });
       } else {
         toast.error("Select Time !!");

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { connect, ReactReduxContext } from "react-redux";
+import { connect } from "react-redux";
 import "./ManageClinic.scss";
 import { FormattedMessage } from "react-intl";
 import { withRouter } from "react-router";
 import { CommonUtils } from "../../../utils";
-import { LENGUAGES } from "../../../utils";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import { toast } from "react-toastify";

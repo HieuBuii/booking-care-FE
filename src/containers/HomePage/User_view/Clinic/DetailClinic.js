@@ -9,7 +9,6 @@ import DoctorInfo from "../Doctor/DoctorInfo";
 import Footer from "../../Section/Footer";
 import { getClinicById } from "../../../../services/userService";
 import _ from "lodash";
-import { LENGUAGES } from "../../../../utils/constant";
 
 class DetailClinic extends Component {
   constructor(props) {
@@ -37,7 +36,7 @@ class DetailClinic extends Component {
           let arrDoctor = data.doctorClinicData;
           if (arrDoctor && arrDoctor.length > 0) {
             arrDoctor.map((item) => {
-              listDoctorId.push(item.doctorId);
+              return listDoctorId.push(item.doctorId);
             });
           }
           this.setState({

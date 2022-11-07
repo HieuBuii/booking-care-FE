@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import _ from "lodash";
@@ -86,7 +85,6 @@ class ModalEditUser extends Component {
   };
 
   render() {
-    let { user } = this.state;
     return (
       <Modal
         isOpen={this.props.isShow}

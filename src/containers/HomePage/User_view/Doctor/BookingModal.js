@@ -70,7 +70,7 @@ class BookingModal extends Component {
         let value = item.keyMap;
         obj.value = value;
         obj.label = label;
-        listOptions.push(obj);
+        return listOptions.push(obj);
       });
     }
     return listOptions;
@@ -204,8 +204,7 @@ class BookingModal extends Component {
   };
 
   render() {
-    let { language, isShowModalBooking, closeModalBooking, dataTime } =
-      this.props;
+    let { isShowModalBooking, closeModalBooking, dataTime } = this.props;
     return (
       <Modal isOpen={isShowModalBooking} className={"schedule-modal"} size="lg">
         <div className="modal-schedule-container">

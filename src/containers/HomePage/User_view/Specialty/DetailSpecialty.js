@@ -49,7 +49,7 @@ class DetailSpecialty extends Component {
           let arrDoctor = data.doctorInfoData;
           if (arrDoctor && arrDoctor.length > 0) {
             arrDoctor.map((item) => {
-              listDoctorId.push(item.doctorId);
+              return listDoctorId.push(item.doctorId);
             });
           }
           let listProvince = resProvince.data;
@@ -93,7 +93,7 @@ class DetailSpecialty extends Component {
           let arrDoctor = data.doctorInfoData;
           if (arrDoctor && arrDoctor.length > 0) {
             arrDoctor.map((item) => {
-              listDoctorId.push(item.doctorId);
+              return listDoctorId.push(item.doctorId);
             });
           }
           this.setState({

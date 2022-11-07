@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
 import { withRouter } from "react-router";
 import { toast } from "react-toastify";
 import { changePWService } from "../../../services/userService";
