@@ -103,6 +103,26 @@ const getSpecialyById = (data) => {
   );
 };
 
+const saveClinicService = (data) => {
+  return axios.post("/api/create-clinic", data);
+};
+
+const getAllClinic = () => {
+  return axios.get(`/api/get-all-clinic`);
+};
+
+const editClinicService = (data) => {
+  return axios.put("/api/edit-clinic", data);
+};
+
+const deleteClinicService = (clinicId) => {
+  return axios.delete("/api/delete-clinic", { data: { id: clinicId } });
+};
+
+const getClinicById = (clinicId) => {
+  return axios.get(`/api/get-clinic-by-id?id=${clinicId}`);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -129,4 +149,9 @@ export {
   forgotPWService,
   ConfirmForgotPWService,
   getSpecialyById,
+  saveClinicService,
+  getAllClinic,
+  editClinicService,
+  deleteClinicService,
+  getClinicById,
 };

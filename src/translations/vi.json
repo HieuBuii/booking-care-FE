@@ -60,7 +60,8 @@
     "image": "Ảnh đại diện",
     "upload": "Thêm ảnh",
     "save": "Thêm người dùng",
-    "edit": "Lưu thay đổi"
+    "edit": "Lưu thay đổi",
+    "desc": "Thông tin chuyên khoa"
   },
   "manage-specialty": {
     "title": "Quản lý chuyên khoa",
@@ -73,8 +74,17 @@
     "save-succeed": "Lưu thay đổi thành công!!",
     "save-failed": "Lưu thay đổi thất bại, vui lòng thử lại !!",
     "fill-all": "Vui lòng điền đầy đủ thông tin",
-    "delete-succeed": "Xoá thông tin chuyên khoa thành cồng !!",
+    "delete-succeed": "Xoá thông tin chuyên khoa thành công !!",
     "delete-failed": "Xoá thông tin chuyên khoa thất bại, vui lòng thử lại !!"
+  },
+  "manage-clinic": {
+    "title": "Quản lý phòng khám",
+    "name": "Tên phòng khám",
+    "address": "Địa chỉ phòng khám",
+    "image-clinic": "Ảnh phòng khám",
+    "delete-succeed": "Xoá thông tin phòng khám thành cồng !!",
+    "delete-failed": "Xoá thông tin phòng khám thất bại, vui lòng thử lại !!",
+    "desc": "Thông tin phòng khám"
   },
   "home-page": {
     "outstanding-doctor": "Bác sĩ nổi bật",
@@ -131,7 +141,8 @@
       "name-clinic": "Tên phòng khám",
       "note": "Ghi chú",
       "specialty": "Chọn chuyên khoa",
-      "clinic": "Chọn phòng khám"
+      "clinic": "Chọn phòng khám",
+      "desc": "Thông tin bác sĩ"
     }
   }
 }

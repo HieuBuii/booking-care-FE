@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import "./ManageSpecialty.scss";
+import { connect, ReactReduxContext } from "react-redux";
+import "./ManageClinic.scss";
 import { FormattedMessage } from "react-intl";
 import { withRouter } from "react-router";
 import { CommonUtils } from "../../../utils";
@@ -9,36 +9,36 @@ import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import { toast } from "react-toastify";
 import {
-  saveSpecialtyService,
-  getAllSpecialties,
-  editSpecialtyService,
-  deleteSpecialtyService,
+  saveClinicService,
+  getAllClinic,
+  editClinicService,
+  deleteClinicService,
 } from "../../../services/userService";
 import _ from "lodash";
 
 const mdParser = new MarkdownIt(/* Doctor_intro-it options */);
 
-class ManageSpecialty extends Component {
+class ManageClinic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nameVi: "",
-      nameEn: "",
+      name: "",
       image: "",
+      address: "",
       previewImg: "",
       contentHTML: "",
       contentMarkdown: "",
-      listSpecialty: [],
-      idSpecialty: "",
+      listClinic: [],
+      idClinic: "",
       statusSubmit: "ADD",
     };
   }
 
   async componentDidMount() {
-    let res = await getAllSpecialties();
+    let res = await getAllClinic();
     if (res && res.errCode === 0) {
       this.setState({
-        listSpecialty: res.data,
+        listClinic: res.data,
       });
     }
   }
@@ -78,10 +78,10 @@ class ManageSpecialty extends Component {
     if (this.state.statusSubmit === "ADD") {
       let isValid = this.validInput();
       if (isValid) {
-        let res = await saveSpecialtyService({
+        let res = await saveClinicService({
           image: this.state.image,
-          nameVi: this.state.nameVi,
-          nameEn: this.state.nameEn,
+          name: this.state.name,
+          address: this.state.address,
           contentHTML: this.state.contentHTML,
           contentMarkdown: this.state.contentMarkdown,
         });
@@ -90,8 +90,8 @@ class ManageSpecialty extends Component {
             <FormattedMessage id="manage-specialty.save-succeed" />
           );
           this.setState({
-            nameVi: "",
-            nameEn: "",
+            name: "",
+            address: "",
             image: "",
             previewImg: "",
             contentHTML: "",
@@ -107,21 +107,21 @@ class ManageSpecialty extends Component {
     if (this.state.statusSubmit === "EDIT") {
       let isValid = this.validInput();
       if (isValid) {
-        let res = await editSpecialtyService({
+        let res = await editClinicService({
           image: this.state.image,
-          nameVi: this.state.nameVi,
-          nameEn: this.state.nameEn,
+          name: this.state.name,
+          address: this.state.address,
           contentHTML: this.state.contentHTML,
           contentMarkdown: this.state.contentMarkdown,
-          id: this.state.idSpecialty,
+          id: this.state.idClinic,
         });
         if (res && res.errCode === 0) {
           toast.success(
             <FormattedMessage id="manage-specialty.save-succeed" />
           );
           this.setState({
-            nameVi: "",
-            nameEn: "",
+            name: "",
+            address: "",
             image: "",
             previewImg: "",
             contentHTML: "",
@@ -135,17 +135,17 @@ class ManageSpecialty extends Component {
         return;
       }
     }
-    let res = await getAllSpecialties();
+    let res = await getAllClinic();
     if (res && res.errCode === 0) {
       this.setState({
-        listSpecialty: res.data,
+        listClinic: res.data,
       });
     }
   };
 
   validInput = () => {
     let isValid = true;
-    let arr = ["nameVi", "nameEn", "image", "contentHTML", "contentMarkdown"];
+    let arr = ["name", "address", "image", "contentHTML", "contentMarkdown"];
     for (let i = 0; i < arr.length; i++) {
       if (!this.state[arr[i]]) {
         isValid = false;
@@ -156,74 +156,72 @@ class ManageSpecialty extends Component {
     return isValid;
   };
 
-  handleEditSpecialty = (item) => {
+  handleEditClinic = (item) => {
     this.setState({
-      nameVi: item.nameVi,
-      nameEn: item.nameEn,
+      name: item.name,
+      address: item.address,
       image: item.image,
       previewImg: item.image,
       contentHTML: item.contentHTML,
       contentMarkdown: item.contentMarkdown,
-      idSpecialty: item.id,
+      idClinic: item.id,
       statusSubmit: "EDIT",
     });
   };
 
-  handleDeleteSpecialty = async (item) => {
+  handleDeleteClinic = async (item) => {
     if (item && !_.isEmpty(item)) {
-      let res = await deleteSpecialtyService(item.id);
+      let res = await deleteClinicService(item.id);
       if (res && res.errCode === 0) {
-        toast.success(
-          <FormattedMessage id="manage-specialty.delete-succeed" />
-        );
+        toast.success(<FormattedMessage id="manage-clinic.delete-succeed" />);
       } else {
-        toast.error(<FormattedMessage id="manage-specialty.delete-failed" />);
+        toast.error(<FormattedMessage id="manage-clinic.delete-failed" />);
       }
     }
-    let res = await getAllSpecialties();
+    let res = await getAllClinic();
     if (res && res.errCode === 0) {
       this.setState({
-        listSpecialty: res.data,
+        listClinic: res.data,
       });
     }
   };
 
   render() {
-    let { listSpecialty } = this.state;
+    let { listClinic } = this.state;
     let file = this.state.previewImg;
     return (
       <>
         <div className="manage-specialty-container">
           <div className="title">
-            <FormattedMessage id="manage-specialty.title" />
+            <FormattedMessage id="manage-clinic.title" />
           </div>
           <div className="manage-body container">
             <form className="row g-3 mt-5">
               <div className="col-md-4">
                 <label className="form-label">
-                  <FormattedMessage id="manage-specialty.nameVi-specialty" />
+                  <FormattedMessage id="manage-clinic.name" />
                 </label>
                 <input
-                  type="nameSpecialty"
+                  type="text"
                   className="form-control"
-                  onChange={(e) => this.handleChangeInput(e, "nameVi")}
-                  value={this.state.nameVi}
+                  onChange={(e) => this.handleChangeInput(e, "name")}
+                  value={this.state.name}
                 />
               </div>
               <div className="col-md-4">
                 <label className="form-label">
-                  <FormattedMessage id="manage-specialty.nameEn-specialty" />
+                  <FormattedMessage id="manage-clinic.address" />
                 </label>
                 <input
-                  type="nameSpecialty"
+                  type="text"
                   className="form-control"
-                  onChange={(e) => this.handleChangeInput(e, "nameEn")}
-                  value={this.state.nameEn}
+                  onChange={(e) => this.handleChangeInput(e, "address")}
+                  value={this.state.address}
                 />
               </div>
               <div className="col-md-4 manage-specialty-img">
                 <label className="form-label">
-                  <FormattedMessage id="manage-specialty.image-specialty" />
+                  <FormattedMessage id="manage-clinic.image-clinic" />
                 </label>
                 <div className="input-img-container">
                   <input
@@ -246,7 +244,7 @@ class ManageSpecialty extends Component {
               </div>
               <div className="col-12">
                 <div className="mb-2">
-                  <FormattedMessage id="manage-user.desc" />
+                  <FormattedMessage id="manage-clinic.desc" />
                 </div>
                 <MdEditor
                   style={{ height: "400px" }}
@@ -276,10 +274,10 @@ class ManageSpecialty extends Component {
                   <FormattedMessage id="manage-specialty.order" />
                 </th>
                 <th>
-                  <FormattedMessage id="manage-specialty.nameVi-specialty" />
+                  <FormattedMessage id="manage-clinic.name" />
                 </th>
                 <th>
-                  <FormattedMessage id="manage-specialty.nameEn-specialty" />
+                  <FormattedMessage id="manage-clinic.address" />
                 </th>
                 <th>
                   <FormattedMessage id="manage-specialty.options" />
@@ -288,25 +286,25 @@ class ManageSpecialty extends Component {
             </thead>
 
             <tbody>
-              {listSpecialty &&
-                listSpecialty.length > 0 &&
-                listSpecialty.map((item, index) => {
+              {listClinic &&
+                listClinic.length > 0 &&
+                listClinic.map((item, index) => {
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.nameVi}</td>
-                      <td>{item.nameEn}</td>
+                      <td>{item.name}</td>
+                      <td>{item.address}</td>
                       <td>
                         <div>
                           <button
                             className="btn btn-edit"
-                            onClick={() => this.handleEditSpecialty(item)}
+                            onClick={() => this.handleEditClinic(item)}
                           >
                             <i className="fas fa-pencil-alt"></i>
                           </button>
                           <button
                             className="btn btn-delete"
-                            onClick={() => this.handleDeleteSpecialty(item)}
+                            onClick={() => this.handleDeleteClinic(item)}
                           >
                             <i className="fas fa-trash"></i>
                           </button>
@@ -334,5 +332,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ManageSpecialty)
+  connect(mapStateToProps, mapDispatchToProps)(ManageClinic)
 );

@@ -11,7 +11,7 @@ import { FormattedMessage } from "react-intl";
 import { saveInfoDoctorService } from "../../../services/userService";
 import { toast } from "react-toastify";
 
-const mdParser = new MarkdownIt(/* Doctor_intro-it options */);
+const mdParser = new MarkdownIt();
 
 class ManageDoctor extends Component {
   constructor(props) {
@@ -93,7 +93,7 @@ class ManageDoctor extends Component {
         this.props.requiredInfoDoctor.clinicId
       );
       this.setState({
-        listClinic: optionsClinic ? optionsClinic : "",
+        listClinic: optionsClinic,
       });
     }
 
@@ -146,8 +146,8 @@ class ManageDoctor extends Component {
         this.props.infoDoctor.Doctor_info.paymentId &&
         this.props.infoDoctor.Doctor_info.priceId &&
         this.props.infoDoctor.Doctor_info.proviceId &&
-        this.props.infoDoctor.Doctor_info.specialtyId
-        // &&this.props.infoDoctor.Doctor_info.clinicId
+        this.props.infoDoctor.Doctor_info.specialtyId &&
+        this.props.infoDoctor.Doctor_info.clinicId
       ) {
         let { listPayment, listPrice, listProvice, listSpecialty, listClinic } =
           this.state;
@@ -294,10 +294,7 @@ class ManageDoctor extends Component {
       nameClinic: this.state.nameClinic,
       addressClinic: this.state.addressClinic,
       note: this.state.note,
-      clinicId:
-        this.state.selectedClinic && this.state.selectedClinic.value
-          ? this.state.selectedClinic.value
-          : "",
+      clinicId: this.state.selectedClinic.value,
       specialtyId: this.state.selectedSpecialty.value,
     });
     if (res && res.errCode === 0) {
@@ -461,6 +458,9 @@ class ManageDoctor extends Component {
           </div>
         </div>
         <div className="markdown-doctor">
+          <div className="mb-2">
+            <FormattedMessage id="admin.manage-doctor.desc" />
+          </div>
           <MdEditor
             style={{ height: "500px" }}
             renderHTML={(text) => mdParser.render(text)}

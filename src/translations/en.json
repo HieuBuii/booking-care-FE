@@ -60,7 +60,8 @@
     "image": "Avatar",
     "upload": "Upload image",
     "save": "Add user",
-    "edit": "Save change"
+    "edit": "Save change",
+    "desc": "Description of specialty"
   },
   "manage-specialty": {
     "title": "Manage specialty",
@@ -75,6 +76,15 @@
     "fill-all": "Please complete all information",
     "delete-succeed": "Delete specialty information successfully !!",
     "delete-failed": "Delete specialty information failed, please try again !!"
+  },
+  "manage-clinic": {
+    "title": "Manage Clinic",
+    "name": "Clinic's name",
+    "address": "Clinic's address",
+    "image-clinic": "Clinic's image",
+    "delete-succeed": "Delete clinic information successfully !!",
+    "delete-failed": "Delete clinic information failed, please try again !!",
+    "desc": "Description of clinic"
   },
   "home-page": {
     "outstanding-doctor": "Outstanding Doctor",
@@ -131,7 +141,8 @@
       "name-clinic": "Clinic's name",
       "note": "Note",
       "specialty": "Choose specialist",
-      "clinic": "Choose clinic"
+      "clinic": "Choose clinic",
+      "desc": "Description of doctor"
     }
   }
 }
