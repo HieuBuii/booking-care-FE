@@ -1,0 +1,16 @@
+.btn-send {
+  background-color: darkcyan;
+  padding: 8px 15px;
+  line-height: 100%;
+  &:hover {
+    background-color: rgb(7, 84, 131);
+    color: rgb(255, 255, 255);
+  }
+}
+
+._loading_overlay_wrapper {
+  position: unset !important;
+  ._loading_overlay_overlay {
+    z-index: 999999;
+  }
+}

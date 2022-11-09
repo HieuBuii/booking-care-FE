@@ -123,6 +123,20 @@ const getClinicById = (clinicId) => {
   return axios.get(`/api/get-clinic-by-id?id=${clinicId}`);
 };
 
+const getAppointmenDoctorService = (doctorId, date) => {
+  return axios.get(
+    `/api/get-appointment-doctor?doctorId=${doctorId}&date=${date}`
+  );
+};
+
+const sendEmailToCustomer = (data) => {
+  return axios.post("/api/send-mail-to-customers", data);
+};
+
+const confirmAppointmentSucceed = (data) => {
+  return axios.post("/api/confirm-succeed-appointment", data);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -154,4 +168,7 @@ export {
   editClinicService,
   deleteClinicService,
   getClinicById,
+  getAppointmenDoctorService,
+  sendEmailToCustomer,
+  confirmAppointmentSucceed,
 };

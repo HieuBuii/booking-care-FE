@@ -17,6 +17,12 @@ class Login extends Component {
     };
   }
 
+  redirectToSystemPage = () => {
+    const { navigate } = this.props;
+    const redirectPath = "/doctor/manage-schedule";
+    navigate(`${redirectPath}`);
+  };
+
   handleInputUsername = (e) => {
     this.setState({
       username: e.target.value,
@@ -47,6 +53,7 @@ class Login extends Component {
         });
       }
       if (data && data.errCode === 0) {
+        this.redirectToSystemPage();
         this.props.userLoginSuccess(data.user);
       }
     } catch (e) {

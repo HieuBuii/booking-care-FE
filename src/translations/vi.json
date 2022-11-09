@@ -43,7 +43,9 @@
       "save-schedule": "Lưu",
       "max-patient": "Số bệnh nhân tối đa",
       "date": "Ngày",
-      "time": "Thời gian"
+      "time": "Thời gian",
+      "manage-appointment": "Quản lý lịch hẹn",
+      "history-appointment": "Lịch sử khám bệnh"
     }
   },
   "manage-user": {

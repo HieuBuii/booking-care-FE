@@ -43,7 +43,9 @@
       "save-schedule": "Save",
       "max-patient": "Max number of patient",
       "date": "Date",
-      "time": "Time"
+      "time": "Time",
+      "manage-appointment": "Manage Appointment",
+      "history-appointment": "History Appointment"
     }
   },
   "manage-user": {
