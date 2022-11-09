@@ -3,20 +3,29 @@ const handleLoginApi = (userEmail, userPassword) => {
   return axios.post("/api/login", { email: userEmail, password: userPassword });
 };
 
-const getAllUsers = (userId) => {
-  return axios.get(`/api/get-all-users?id=${userId}`);
+const getAllUsers = (userId, token) => {
+  return axios.get(`/api/get-all-users?id=${userId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
 
-const addUserService = (data) => {
-  return axios.post("/api/create-user", data);
+const addUserService = (data, token) => {
+  return axios.post("/api/create-user", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
 
-const deleteUserService = (userId) => {
-  return axios.delete("/api/delete-user", { data: { id: userId } });
+const deleteUserService = (userId, token) => {
+  return axios.delete("/api/delete-user", {
+    headers: { Authorization: `Bearer ${token}` },
+    data: { id: userId },
+  });
 };
 
-const editUserService = (inputData) => {
-  return axios.put("/api/edit-user", inputData);
+const editUserService = (inputData, token) => {
+  return axios.put("/api/edit-user", inputData, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
 
 const getAllCodeService = (inputType) => {
@@ -27,8 +36,10 @@ const getTopDoctorForHomeService = (limit) => {
   return axios.get(`/api/top-doctor-home?limit=${limit}`);
 };
 
-const getAllDoctorService = () => {
-  return axios.get(`/api/get-all-doctocs`);
+const getAllDoctorService = (token) => {
+  return axios.get(`/api/get-all-doctocs`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
 
 const saveInfoDoctorService = (data) => {
@@ -69,12 +80,20 @@ const postVerifyPatientBooking = (data) => {
   return axios.post("/api/verify-patient-booking", data);
 };
 
-const saveSpecialtyService = (data) => {
-  return axios.post("/api/create-specialty", data);
+const saveSpecialtyService = (data, token) => {
+  return axios.post("/api/create-specialty", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
 
-const getAllSpecialties = () => {
-  return axios.get(`/api/get-all-specialty`);
+const getAllSpecialties = (token) => {
+  return axios.get(`/api/get-all-specialty`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+const getAllSpecialtiesForHome = () => {
+  return axios.get(`/api/home-get-all-specialty`);
 };
 
 const editSpecialtyService = (data) => {
@@ -103,12 +122,20 @@ const getSpecialyById = (data) => {
   );
 };
 
-const saveClinicService = (data) => {
-  return axios.post("/api/create-clinic", data);
+const saveClinicService = (data, token) => {
+  return axios.post("/api/create-clinic", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
 
-const getAllClinic = () => {
-  return axios.get(`/api/get-all-clinic`);
+const getAllClinic = (token) => {
+  return axios.get(`/api/get-all-clinic`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+const getAllClinicForHome = () => {
+  return axios.get(`/api/home-get-all-clinic`);
 };
 
 const editClinicService = (data) => {
@@ -171,4 +198,6 @@ export {
   getAppointmenDoctorService,
   sendEmailToCustomer,
   confirmAppointmentSucceed,
+  getAllClinicForHome,
+  getAllSpecialtiesForHome,
 };

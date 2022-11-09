@@ -29,7 +29,12 @@ class ManageSchedule extends Component {
   }
 
   async componentDidMount() {
-    this.props.fetchAllDoctors();
+    if (this.props.userInfo && this.props.userInfo.accessToken) {
+      let accessToken = this.props.userInfo.accessToken;
+      if (this.props.userInfo.roleId === "R1") {
+        await this.props.fetchAllDoctors(accessToken);
+      }
+    }
     this.props.fetchAllTime();
   }
 
@@ -80,10 +85,20 @@ class ManageSchedule extends Component {
     this.setState({
       currentDate: date[0],
     });
+    let role = "",
+      id = "";
+    if (
+      this.props.userInfo &&
+      this.props.userInfo.roleId &&
+      this.props.userInfo.id
+    ) {
+      role = this.props.userInfo.roleId;
+      id = this.props.userInfo.id;
+    }
     let { selectedDoctor, currentDate } = this.state;
     if (selectedDoctor && currentDate) {
       let res = await getScheduleDoctorService(
-        selectedDoctor.value,
+        role && role === "R1" ? selectedDoctor.value : id,
         currentDate.getTime()
       );
       if (res && res.errCode === 0) {
@@ -110,12 +125,24 @@ class ManageSchedule extends Component {
   };
 
   handleSubmit = async () => {
+    let role = "",
+      id = "";
+    if (
+      this.props.userInfo &&
+      this.props.userInfo.roleId &&
+      this.props.userInfo.id
+    ) {
+      role = this.props.userInfo.roleId;
+      id = this.props.userInfo.id;
+    }
     let { rangeTime, selectedDoctor, currentDate } = this.state;
     let result = [];
 
-    if (selectedDoctor && _.isEmpty(selectedDoctor)) {
-      toast.error("Select Doctor !!");
-      return;
+    if (role === "R1") {
+      if (selectedDoctor && _.isEmpty(selectedDoctor)) {
+        toast.error("Select Doctor !!");
+        return;
+      }
     }
 
     if (!currentDate) {
@@ -130,7 +157,7 @@ class ManageSchedule extends Component {
       if (selectedTime && selectedTime.length > 0) {
         selectedTime.map((item) => {
           let obj = {};
-          obj.doctorId = selectedDoctor.value;
+          obj.doctorId = role && role === "R1" ? selectedDoctor.value : id;
           obj.date = formatDate;
           obj.timeType = item.keyMap;
           return result.push(obj);
@@ -142,7 +169,7 @@ class ManageSchedule extends Component {
     }
     let res = await saveScheduleService({
       arrSchedule: result,
-      doctorId: selectedDoctor.value,
+      doctorId: role && role === "R1" ? selectedDoctor.value : id,
       formatDate: formatDate,
     });
     if (res && res.errCode === 0) {
@@ -150,7 +177,7 @@ class ManageSchedule extends Component {
       let { selectedDoctor, currentDate } = this.state;
       if (selectedDoctor && currentDate) {
         let res = await getScheduleDoctorService(
-          selectedDoctor.value,
+          role && role === "R1" ? selectedDoctor.value : id,
           currentDate.getTime()
         );
         if (res && res.errCode === 0) {
@@ -169,16 +196,26 @@ class ManageSchedule extends Component {
   }
 
   handleDeleteSchedule = async (item) => {
+    let role = "",
+      id = "";
+    if (
+      this.props.userInfo &&
+      this.props.userInfo.roleId &&
+      this.props.userInfo.id
+    ) {
+      role = this.props.userInfo.roleId;
+      id = this.props.userInfo.id;
+    }
     let res = await deleteScheduleDoctorService(item.id);
     if (res && res.errCode === 0) {
-      toast.success("xoa ok");
+      toast.success("Delete Schedule Succeed !!");
     } else {
-      toast.error("xoa failed");
+      toast.error("Delete Schedule failed");
     }
     let { selectedDoctor, currentDate } = this.state;
     if (selectedDoctor && currentDate) {
       let res = await getScheduleDoctorService(
-        selectedDoctor.value,
+        role && role === "R1" ? selectedDoctor.value : id,
         currentDate.getTime()
       );
       if (res && res.errCode === 0) {
@@ -190,6 +227,11 @@ class ManageSchedule extends Component {
   };
 
   render() {
+    let role = "",
+      id = "";
+    if (this.props.userInfo && this.props.userInfo.roleId) {
+      role = this.props.userInfo.roleId;
+    }
     let { rangeTime, timeData } = this.state;
     let { language } = this.props;
     return (
@@ -198,17 +240,19 @@ class ManageSchedule extends Component {
           <FormattedMessage id="menu.doctor.manage-schedule" />
         </div>
         <div className="container">
-          <div className="row content-top">
-            <div className="col-6 form-group content-top-left">
-              <label>
-                <FormattedMessage id="menu.doctor.choose-doctor" />
-              </label>
-              <Select
-                value={this.state.selectedDoctor}
-                onChange={this.handleChangeSelect}
-                options={this.state.listDoctors}
-              />
-            </div>
+          <div className="row content-top center">
+            {role && role === "R1" && (
+              <div className="col-6 form-group content-top-left">
+                <label>
+                  <FormattedMessage id="menu.doctor.choose-doctor" />
+                </label>
+                <Select
+                  value={this.state.selectedDoctor}
+                  onChange={this.handleChangeSelect}
+                  options={this.state.listDoctors}
+                />
+              </div>
+            )}
             <div className="col-6 form-group content-top-right">
               <label>
                 <FormattedMessage id="menu.doctor.choose-date" />
@@ -320,13 +364,14 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     allDoctor: state.admin.allDoctors,
     timeArr: state.admin.timeArr,
+    userInfo: state.user.userInfo,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllTime: () => dispatch(actions.fetchAllTime()),
-    fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
+    fetchAllDoctors: (token) => dispatch(actions.fetchAllDoctors(token)),
   };
 };
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getAllClinic } from "../../../services/userService";
+import { getAllClinicForHome } from "../../../services/userService";
 import { withRouter } from "react-router";
 
 import Slider from "react-slick";
@@ -16,7 +16,7 @@ class MedicalFacility extends Component {
   componentDidUpdate(prevProps, prevState) {}
 
   async componentDidMount() {
-    let res = await getAllClinic();
+    let res = await getAllClinicForHome();
     if (res && res.errCode === 0) {
       this.setState({
         listClinic: res.data,

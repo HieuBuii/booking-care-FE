@@ -30,15 +30,19 @@ class ManageClinic extends Component {
       listClinic: [],
       idClinic: "",
       statusSubmit: "ADD",
+      token: "",
     };
   }
 
   async componentDidMount() {
-    let res = await getAllClinic();
-    if (res && res.errCode === 0) {
-      this.setState({
-        listClinic: res.data,
-      });
+    if (this.props.userInfo && this.props.userInfo.accessToken) {
+      let res = await getAllClinic(this.props.userInfo.accessToken);
+      if (res && res.errCode === 0) {
+        this.setState({
+          listClinic: res.data,
+          token: this.props.userInfo.accessToken,
+        });
+      }
     }
   }
 
@@ -73,17 +77,24 @@ class ManageClinic extends Component {
   };
 
   handleSubmit = async (e) => {
+    let token = "";
+    if (this.props.userInfo && this.props.userInfo.accessToken) {
+      token = this.props.userInfo.accessToken;
+    }
     e.preventDefault();
     if (this.state.statusSubmit === "ADD") {
       let isValid = this.validInput();
       if (isValid) {
-        let res = await saveClinicService({
-          image: this.state.image,
-          name: this.state.name,
-          address: this.state.address,
-          contentHTML: this.state.contentHTML,
-          contentMarkdown: this.state.contentMarkdown,
-        });
+        let res = await saveClinicService(
+          {
+            image: this.state.image,
+            name: this.state.name,
+            address: this.state.address,
+            contentHTML: this.state.contentHTML,
+            contentMarkdown: this.state.contentMarkdown,
+          },
+          token
+        );
         if (res && res.errCode === 0) {
           toast.success(
             <FormattedMessage id="manage-specialty.save-succeed" />
@@ -134,7 +145,7 @@ class ManageClinic extends Component {
         return;
       }
     }
-    let res = await getAllClinic();
+    let res = await getAllClinic(this.state.token);
     if (res && res.errCode === 0) {
       this.setState({
         listClinic: res.data,
@@ -177,7 +188,7 @@ class ManageClinic extends Component {
         toast.error(<FormattedMessage id="manage-clinic.delete-failed" />);
       }
     }
-    let res = await getAllClinic();
+    let res = await getAllClinic(this.state.token);
     if (res && res.errCode === 0) {
       this.setState({
         listClinic: res.data,
@@ -323,6 +334,7 @@ class ManageClinic extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    userInfo: state.user.userInfo,
   };
 };
 

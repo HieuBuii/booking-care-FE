@@ -90,15 +90,15 @@ export const fetchRoleFailed = () => ({
   type: actionTypes.FETCH_ROLE_FAILED,
 });
 
-export const createUser = (data) => {
+export const createUser = (data, token) => {
   return async (dispatch, getState) => {
     try {
-      let res = await addUserService(data);
+      let res = await addUserService(data, token);
       if (res && res.errCode !== 0) toast.warn(res.errMessage);
       if (res && res.errCode === 0) {
         toast.success("Create new user success !!");
         dispatch(createUserSuccess());
-        dispatch(fetchAllUserStart());
+        dispatch(fetchAllUserStart(token));
       } else {
         dispatch(createUserFailed());
       }
@@ -117,10 +117,10 @@ export const createUserFailed = () => ({
   type: actionTypes.CREATE_USE_FAILED,
 });
 
-export const fetchAllUserStart = () => {
+export const fetchAllUserStart = (token) => {
   return async (dispatch, getState) => {
     try {
-      let res = await getAllUsers("ALL");
+      let res = await getAllUsers("ALL", token);
       if (res && res.errCode === 0) {
         dispatch(fetchAllUserSuccess(res.users.reverse()));
       } else {
@@ -144,14 +144,14 @@ export const fetchAllUserFailed = () => ({
   type: actionTypes.FETCH_ALL_USER_FAILED,
 });
 
-export const deleteUser = (userId) => {
+export const deleteUser = (userId, token) => {
   return async (dispatch, getState) => {
     try {
-      let res = await deleteUserService(userId);
+      let res = await deleteUserService(userId, token);
       if (res && res.errCode === 0) {
         toast.success("Delete user success!!");
         dispatch(deleteUserSuccess());
-        dispatch(fetchAllUserStart());
+        dispatch(fetchAllUserStart(token));
       } else {
         toast.error(res.errMessage);
         dispatch(deleteUserFailed());
@@ -172,14 +172,14 @@ export const deleteUserFailed = () => ({
   type: actionTypes.DELETE_USER_FAILED,
 });
 
-export const editUser = (data) => {
+export const editUser = (data, token) => {
   return async (dispatch, getState) => {
     try {
-      let res = await editUserService(data);
+      let res = await editUserService(data, token);
       if (res && res.errCode === 0) {
         toast.success("Edit user success!!");
         dispatch(editUserSuccess());
-        dispatch(fetchAllUserStart());
+        dispatch(fetchAllUserStart(token));
       } else {
         toast.error(res.errMessage);
         dispatch(editUserFailed());
@@ -221,10 +221,10 @@ export const fetchTopDoctor = () => {
   };
 };
 
-export const fetchAllDoctors = () => {
+export const fetchAllDoctors = (token) => {
   return async (dispatch, getState) => {
     try {
-      let res = await getAllDoctorService();
+      let res = await getAllDoctorService(token);
       if (res && res.errCode === 0) {
         dispatch({
           type: actionTypes.FETCH_ALL_DOCTORS_SUCCESS,
@@ -307,15 +307,15 @@ export const fetchAllTime = () => {
   };
 };
 
-export const fetchRequiredDoctorStart = () => {
+export const fetchRequiredDoctorStart = (token) => {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: actionTypes.FETCH_REQUIRED_DOCTOR_START });
       let priceRes = await getAllCodeService("PRICE");
       let proviceRes = await getAllCodeService("PROVINCE");
       let paymentRes = await getAllCodeService("PAYMENT");
-      let specialtyRes = await getAllSpecialties();
-      let clinicRes = await getAllClinic();
+      let specialtyRes = await getAllSpecialties(token);
+      let clinicRes = await getAllClinic(token);
       if (
         priceRes &&
         priceRes.errCode === 0 &&

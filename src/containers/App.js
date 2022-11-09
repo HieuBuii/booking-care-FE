@@ -21,6 +21,7 @@ import VerifyEmail from "./HomePage/User_view/VerifyEmail";
 import ForgotPW from "./System/Admin/ForgotPW";
 import DetailSpecialty from "./HomePage/User_view/Specialty/DetailSpecialty";
 import DetailClinic from "./HomePage/User_view/Clinic/DetailClinic";
+import ViewMoreDoctor from "./HomePage/User_view/Doctor/ViewMoreDoctor";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -65,6 +66,10 @@ class App extends Component {
                     component={userIsAuthenticated(Doctor)}
                   />
                   <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
+                  <Route
+                    path={path.VIEW_MORE_DOCTOR}
+                    component={ViewMoreDoctor}
+                  />
                   <Route
                     path={path.DETAIL_SPECIALTY}
                     component={DetailSpecialty}

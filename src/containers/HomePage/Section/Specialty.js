@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getAllSpecialties } from "../../../services/userService";
+import { getAllSpecialtiesForHome } from "../../../services/userService";
 import { LENGUAGES } from "../../../utils/constant";
 import { FormattedMessage } from "react-intl";
 import { withRouter } from "react-router";
@@ -18,7 +18,7 @@ class Specialty extends Component {
   componentDidUpdate(prevProps, prevState) {}
 
   async componentDidMount() {
-    let res = await getAllSpecialties();
+    let res = await getAllSpecialtiesForHome();
     if (res && res.errCode === 0) {
       this.setState({
         listSpecialty: res.data,

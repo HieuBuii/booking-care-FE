@@ -13,7 +13,12 @@ class TableManageUser extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchUserRedux();
+    if (this.props.userInfo && this.props.userInfo.accessToken) {
+      let accessToken = this.props.userInfo.accessToken;
+      if (this.props.userInfo) {
+        this.props.fetchUserRedux(accessToken);
+      }
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -25,7 +30,12 @@ class TableManageUser extends Component {
   }
 
   handleDeleteUser(user) {
-    this.props.deleteUserRedux(user.id);
+    if (this.props.userInfo && this.props.userInfo.accessToken) {
+      let accessToken = this.props.userInfo.accessToken;
+      if (this.props.userInfo) {
+        this.props.deleteUserRedux(user.id, accessToken);
+      }
+    }
   }
 
   handleEditUser(user) {
@@ -88,13 +98,15 @@ class TableManageUser extends Component {
 const mapStateToProps = (state) => {
   return {
     listUsers: state.admin.users,
+    userInfo: state.user.userInfo,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchUserRedux: () => dispatch(actions.fetchAllUserStart()),
-    deleteUserRedux: (userId) => dispatch(actions.deleteUser(userId)),
+    fetchUserRedux: (token) => dispatch(actions.fetchAllUserStart(token)),
+    deleteUserRedux: (userId, token) =>
+      dispatch(actions.deleteUser(userId, token)),
   };
 };
 

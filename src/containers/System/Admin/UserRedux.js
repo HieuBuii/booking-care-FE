@@ -29,6 +29,7 @@ class UserRedux extends Component {
       role: "",
       avatar: "",
       action: "",
+      accessToken: [],
     };
   }
 
@@ -36,6 +37,10 @@ class UserRedux extends Component {
     this.props.getGenderStart();
     this.props.getPositionStart();
     this.props.getRoleStart();
+    if (this.props.userInfo && this.props.userInfo.accessToken) {
+      let accessToken = this.props.userInfo.accessToken;
+      this.setState({ accessToken });
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -165,34 +170,41 @@ class UserRedux extends Component {
     e.preventDefault();
     let isValid = this.validInput();
     if (isValid) {
+      let accessToken = this.state.accessToken;
       if (this.state.action === MANAGER_ACTIONS.EDIT) {
-        this.props.editUser({
-          id: this.state.id,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          address: this.state.address,
-          phonenumber: this.state.phonenumber,
-          gender: this.state.gender,
-          roleId: this.state.role,
-          positionId: this.state.position,
-          image: this.state.previewImg,
-        });
+        this.props.editUser(
+          {
+            id: this.state.id,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            address: this.state.address,
+            phonenumber: this.state.phonenumber,
+            gender: this.state.gender,
+            roleId: this.state.role,
+            positionId: this.state.position,
+            image: this.state.previewImg,
+          },
+          accessToken
+        );
         this.setState({
           action: MANAGER_ACTIONS.CREATE,
         });
       } else {
-        this.props.createUser({
-          email: this.state.email,
-          password: this.state.password,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          address: this.state.address,
-          phonenumber: this.state.phonenumber,
-          gender: this.state.gender,
-          roleId: this.state.role,
-          positionId: this.state.position,
-          image: this.state.avatar,
-        });
+        this.props.createUser(
+          {
+            email: this.state.email,
+            password: this.state.password,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            address: this.state.address,
+            phonenumber: this.state.phonenumber,
+            gender: this.state.gender,
+            roleId: this.state.role,
+            positionId: this.state.position,
+            image: this.state.avatar,
+          },
+          accessToken
+        );
       }
     } else {
       return;
@@ -438,6 +450,7 @@ const mapStateToProps = (state) => {
     position: state.admin.positions,
     role: state.admin.roles,
     listUsers: state.admin.users,
+    userInfo: state.user.userInfo,
   };
 };
 
@@ -446,9 +459,9 @@ const mapDispatchToProps = (dispatch) => {
     getGenderStart: () => dispatch(actions.fetchGenderStart()),
     getPositionStart: () => dispatch(actions.fetchPositionStart()),
     getRoleStart: () => dispatch(actions.fetchRoleStart()),
-    createUser: (data) => dispatch(actions.createUser(data)),
+    createUser: (data, token) => dispatch(actions.createUser(data, token)),
     fetchUserRedux: () => dispatch(actions.fetchAllUserStart()),
-    editUser: (data) => dispatch(actions.editUser(data)),
+    editUser: (data, token) => dispatch(actions.editUser(data, token)),
   };
 };
 

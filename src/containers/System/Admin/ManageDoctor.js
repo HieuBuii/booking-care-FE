@@ -41,12 +41,17 @@ class ManageDoctor extends Component {
       // nameClinic: "",
       // addressClinic: "",
       note: "",
+      accessToken: "",
     };
   }
 
   async componentDidMount() {
-    await this.props.fetchAllDoctors();
-    await this.props.fetchRequiredDoctorStart();
+    if (this.props.userInfo && this.props.userInfo.accessToken) {
+      let accessToken = this.props.userInfo.accessToken;
+      this.setState({ accessToken });
+      await this.props.fetchAllDoctors(accessToken);
+      await this.props.fetchRequiredDoctorStart(accessToken);
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -490,16 +495,17 @@ const mapStateToProps = (state) => {
     allDoctor: state.admin.allDoctors,
     infoDoctor: state.admin.infoDoctor,
     requiredInfoDoctor: state.admin.requiredInfoDoctor,
+    userInfo: state.user.userInfo,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
+    fetchAllDoctors: (token) => dispatch(actions.fetchAllDoctors(token)),
     getInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
     saveInfoDoctor: (data) => dispatch(actions.saveInfoDoctor(data)),
-    fetchRequiredDoctorStart: () =>
-      dispatch(actions.fetchRequiredDoctorStart()),
+    fetchRequiredDoctorStart: (token) =>
+      dispatch(actions.fetchRequiredDoctorStart(token)),
   };
 };
 

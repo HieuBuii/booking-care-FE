@@ -30,15 +30,19 @@ class ManageSpecialty extends Component {
       listSpecialty: [],
       idSpecialty: "",
       statusSubmit: "ADD",
+      token: "",
     };
   }
 
   async componentDidMount() {
-    let res = await getAllSpecialties();
-    if (res && res.errCode === 0) {
-      this.setState({
-        listSpecialty: res.data,
-      });
+    if (this.props.userInfo && this.props.userInfo.accessToken) {
+      let res = await getAllSpecialties(this.props.userInfo.accessToken);
+      if (res && res.errCode === 0) {
+        this.setState({
+          listSpecialty: res.data,
+          token: this.props.userInfo.accessToken,
+        });
+      }
     }
   }
 
@@ -73,17 +77,24 @@ class ManageSpecialty extends Component {
   };
 
   handleSubmit = async (e) => {
+    let token = "";
+    if (this.props.userInfo && this.props.userInfo.accessToken) {
+      token = this.props.userInfo.accessToken;
+    }
     e.preventDefault();
     if (this.state.statusSubmit === "ADD") {
       let isValid = this.validInput();
       if (isValid) {
-        let res = await saveSpecialtyService({
-          image: this.state.image,
-          nameVi: this.state.nameVi,
-          nameEn: this.state.nameEn,
-          contentHTML: this.state.contentHTML,
-          contentMarkdown: this.state.contentMarkdown,
-        });
+        let res = await saveSpecialtyService(
+          {
+            image: this.state.image,
+            nameVi: this.state.nameVi,
+            nameEn: this.state.nameEn,
+            contentHTML: this.state.contentHTML,
+            contentMarkdown: this.state.contentMarkdown,
+          },
+          token
+        );
         if (res && res.errCode === 0) {
           toast.success(
             <FormattedMessage id="manage-specialty.save-succeed" />
@@ -134,7 +145,7 @@ class ManageSpecialty extends Component {
         return;
       }
     }
-    let res = await getAllSpecialties();
+    let res = await getAllSpecialties(token);
     if (res && res.errCode === 0) {
       this.setState({
         listSpecialty: res.data,
@@ -179,7 +190,7 @@ class ManageSpecialty extends Component {
         toast.error(<FormattedMessage id="manage-specialty.delete-failed" />);
       }
     }
-    let res = await getAllSpecialties();
+    let res = await getAllSpecialties(this.state.token);
     if (res && res.errCode === 0) {
       this.setState({
         listSpecialty: res.data,
@@ -325,6 +336,7 @@ class ManageSpecialty extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    userInfo: state.user.userInfo,
   };
 };
 
