@@ -6,8 +6,8 @@
     "select-clinic": "Choose hospital clinic",
     "doctor": "Doctor",
     "choose-doctor": "Choose a good doctor",
-    "fee": "Medical examination",
-    "check-health": "General health check",
+    "fee": "Handbook",
+    "check-health": "Medical handbook",
     "support": "Support",
     "welcome": "Welcome, "
   },
@@ -17,7 +17,7 @@
     "health-care": "COMPREHENSIVE HEALTH CARE",
     "search": "Find a clinic",
     "specialist": "Specializations",
-    "check-health": "General health check",
+    "check-health": "Medical handbook",
     "clinic": "Good clinic",
     "doctor": "Good doctor"
   },
@@ -88,10 +88,26 @@
     "delete-failed": "Delete clinic information failed, please try again !!",
     "desc": "Description of clinic"
   },
+  "manage-handbook": {
+    "title": "Manage Post",
+    "name": "Title of post",
+    "author": "Author name",
+    "content": "Content of post",
+    "image": "Cover image",
+    "search": "Find some post"
+  },
   "home-page": {
     "outstanding-doctor": "Outstanding Doctor",
     "view-more": "More Infor",
-    "specialist": "Popular Specialist"
+    "specialist": "Popular Specialist",
+    "clinics": "Reputable Clinic",
+    "search": "Search",
+    "handbook": "Handbook",
+    "view-all": "View All",
+    "search-doctor": "Search for a  doctor",
+    "search-clinic": "Search for a  clinic",
+    "search-specialist": "Search for a specialty",
+    "about": "About Health Care"
   },
   "user-view": {
     "detail-doctor": {

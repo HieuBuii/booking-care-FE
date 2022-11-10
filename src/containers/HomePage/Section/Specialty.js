@@ -26,6 +26,12 @@ class Specialty extends Component {
     }
   }
 
+  handleViewMore = () => {
+    if (this.props.history) {
+      this.props.history.push(`/view-more-specialty`);
+    }
+  };
+
   handleViewDetail = (specialty) => {
     if (this.props.history) {
       this.props.history.push(`/detail-specialty/${specialty.id}`);
@@ -42,8 +48,11 @@ class Specialty extends Component {
             <h3 className="section-title">
               <FormattedMessage id="home-page.specialist" />
             </h3>
-            <button className="section-btn">
-              <FormattedMessage id="home-page.view-more" />
+            <button
+              className="section-btn"
+              onClick={() => this.handleViewMore()}
+            >
+              <FormattedMessage id="home-page.view-all" />
             </button>
           </div>
           <div className="section-body">

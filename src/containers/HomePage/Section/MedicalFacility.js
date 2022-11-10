@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getAllClinicForHome } from "../../../services/userService";
 import { withRouter } from "react-router";
+import { FormattedMessage } from "react-intl";
 
 import Slider from "react-slick";
 
@@ -24,6 +25,12 @@ class MedicalFacility extends Component {
     }
   }
 
+  handleViewMore = () => {
+    if (this.props.history) {
+      this.props.history.push(`/view-more-clinic`);
+    }
+  };
+
   handleViewDetail = (clinic) => {
     if (this.props.history) {
       this.props.history.push(`/detail-clinic/${clinic.id}`);
@@ -36,8 +43,15 @@ class MedicalFacility extends Component {
       <div className="section-common section-medical-facility">
         <div className="section-container container">
           <div className="section-header">
-            <h3 className="section-title">Cơ sở y tế nổi bật</h3>
-            <button className="section-btn">Tìm kiếm</button>
+            <h3 className="section-title">
+              <FormattedMessage id="home-page.clinics" />
+            </h3>
+            <button
+              className="section-btn"
+              onClick={() => this.handleViewMore()}
+            >
+              <FormattedMessage id="home-page.search" />
+            </button>
           </div>
           <div className="section-body">
             <Slider {...this.props.settings}>

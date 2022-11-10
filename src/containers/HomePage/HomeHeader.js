@@ -17,6 +17,22 @@ class HomeHeader extends Component {
       this.props.history.push(`/home`);
     }
   };
+
+  handleViewMore = (id) => {
+    if (this.props.history) {
+      if (id === "specialist") this.props.history.push(`/view-more-specialty`);
+    }
+    if (this.props.history) {
+      if (id === "doctor") this.props.history.push(`/view-more-doctor`);
+    }
+    if (this.props.history) {
+      if (id === "handbook") this.props.history.push(`/view-more-handbook`);
+    }
+    if (this.props.history) {
+      if (id === "facilities") this.props.history.push(`/view-more-clinic`);
+    }
+  };
+
   render() {
     let language = this.props.language;
     return (
@@ -24,7 +40,6 @@ class HomeHeader extends Component {
         <div className="home-header-container">
           <div className="home-header-content container">
             <div className="content-left">
-              <i className="fas fa-bars icon"></i>
               <div className="header-logo">
                 <img
                   src={mainLogo}
@@ -34,7 +49,10 @@ class HomeHeader extends Component {
               </div>
             </div>
             <ul className="content-center">
-              <li className="content-child">
+              <li
+                className="content-child"
+                onClick={() => this.handleViewMore("specialist")}
+              >
                 <div className="child-title">
                   <FormattedMessage id="homeheader.specialist" />
                 </div>
@@ -42,7 +60,10 @@ class HomeHeader extends Component {
                   <FormattedMessage id="homeheader.find-doctor" />
                 </div>
               </li>
-              <li className="content-child">
+              <li
+                className="content-child"
+                onClick={() => this.handleViewMore("facilities")}
+              >
                 <div className="child-title">
                   <FormattedMessage id="homeheader.health-facilities" />
                 </div>
@@ -50,7 +71,10 @@ class HomeHeader extends Component {
                   <FormattedMessage id="homeheader.select-clinic" />
                 </div>
               </li>
-              <li className="content-child">
+              <li
+                className="content-child"
+                onClick={() => this.handleViewMore("doctor")}
+              >
                 <div className="child-title">
                   {" "}
                   <FormattedMessage id="homeheader.doctor" />
@@ -60,7 +84,10 @@ class HomeHeader extends Component {
                   <FormattedMessage id="homeheader.choose-doctor" />
                 </div>
               </li>
-              <li className="content-child">
+              <li
+                className="content-child"
+                onClick={() => this.handleViewMore("handbook")}
+              >
                 <div className="child-title">
                   <FormattedMessage id="homeheader.fee" />
                 </div>
@@ -70,12 +97,12 @@ class HomeHeader extends Component {
               </li>
             </ul>
             <div className="content-right">
-              <div className="content-support">
+              {/* <div className="content-support">
                 <i className="fas fa-question question"></i>
                 <span className="content-question">
                   <FormattedMessage id="homeheader.support" />
                 </span>
-              </div>
+              </div> */}
               <div className="content-lang">
                 <span
                   className={

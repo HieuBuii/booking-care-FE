@@ -70,4 +70,14 @@ export const doctorMenu = [
       { name: "menu.admin.manage-password", link: "/system/manage-password" },
     ],
   },
+  {
+    //manager handbook
+    name: "menu.admin.handbook",
+    menus: [
+      {
+        name: "menu.admin.manage-handbook",
+        link: "/system/manage-handbook",
+      },
+    ],
+  },
 ];

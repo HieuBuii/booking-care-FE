@@ -9,6 +9,10 @@ const getAllUsers = (userId, token) => {
   });
 };
 
+const getAllDoctorForHome = () => {
+  return axios.get(`/api/home-get-all-doctocs`);
+};
+
 const addUserService = (data, token) => {
   return axios.post("/api/create-user", data, {
     headers: { Authorization: `Bearer ${token}` },
@@ -164,6 +168,28 @@ const confirmAppointmentSucceed = (data) => {
   return axios.post("/api/confirm-succeed-appointment", data);
 };
 
+const saveHandBookService = (data) => {
+  return axios.post("/api/create-handbook", data);
+};
+
+const getAllHandBook = (token) => {
+  return axios.get(`/api/get-all-handbook`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+const editHandBookService = (data) => {
+  return axios.put("/api/edit-handbook", data);
+};
+
+const deleteHandBookService = (handBookId) => {
+  return axios.delete("/api/delete-handbook", { data: { id: handBookId } });
+};
+
+const getHandBookById = (handBookId) => {
+  return axios.get(`/api/get-handbook-by-id?id=${handBookId}`);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -200,4 +226,10 @@ export {
   confirmAppointmentSucceed,
   getAllClinicForHome,
   getAllSpecialtiesForHome,
+  getAllDoctorForHome,
+  saveHandBookService,
+  getAllHandBook,
+  editHandBookService,
+  deleteHandBookService,
+  getHandBookById,
 };

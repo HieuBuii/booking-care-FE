@@ -7,9 +7,13 @@ export const path = {
   DETAIL_DOCTOR: "/detail-doctor/:id",
   DETAIL_SPECIALTY: "/detail-specialty/:id",
   DETAIL_CLINIC: "/detail-clinic/:id",
+  DETAIL_HANDBOOK: "/detail-handbook/:id",
   VERIFY_BOOKING_EMAIL: "/verify-booking",
   FORGOT_PW: "/forgot-password",
   VIEW_MORE_DOCTOR: "/view-more-doctor",
+  VIEW_MORE_CLINIC: "/view-more-clinic",
+  VIEW_MORE_SPECIALTY: "/view-more-specialty",
+  VIEW_MORE_HANDBOOK: "/view-more-handbook",
 };
 
 export const LENGUAGES = {

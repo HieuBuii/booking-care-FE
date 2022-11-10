@@ -6,8 +6,8 @@
     "select-clinic": "Chọn bệnh viện phòng khám",
     "doctor": "Bác sĩ",
     "choose-doctor": "Chọn bác sĩ giỏi",
-    "fee": "Gói khám",
-    "check-health": "Khám sức khoẻ tổng quát",
+    "fee": "Cẩm nang",
+    "check-health": "Cẩm nang y tế",
     "support": "Hỗ trợ",
     "welcome": "Xin chào, "
   },
@@ -17,7 +17,7 @@
     "health-care": "CHĂM SÓC SỨC KHOẺ TOÀN DIỆN",
     "search": "Tìm chuyên khoa",
     "specialist": "Các chuyên khoa",
-    "check-health": "Khám tổng quát",
+    "check-health": "Cẩm nang y tế",
     "clinic": "Phòng khám tốt",
     "doctor": "Bác sĩ giỏi"
   },
@@ -88,10 +88,26 @@
     "delete-failed": "Xoá thông tin phòng khám thất bại, vui lòng thử lại !!",
     "desc": "Thông tin phòng khám"
   },
+  "manage-handbook": {
+    "title": "Quản lý bài đăng",
+    "name": "Tiêu đề",
+    "author": "Tên tác giả (nguồn)",
+    "content": "Nội dung",
+    "image": "Ảnh bìa",
+    "search": "Tìm bài đăng"
+  },
   "home-page": {
     "outstanding-doctor": "Bác sĩ nổi bật",
     "view-more": "Xem thêm",
-    "specialist": "Chuyên khoa phổ biến"
+    "specialist": "Chuyên khoa phổ biến",
+    "clinics": "Phòng khám uy tín",
+    "search": "Tìm kiếm",
+    "handbook": "Cẩm nang",
+    "view-all": "Xem tất cả",
+    "search-doctor": "Tìm kiếm bác sĩ",
+    "search-clinic": "Tìm kiếm phòng khám",
+    "search-specialist": "Tìm kiếm chuyên khoa",
+    "about": "Về Health Care"
   },
   "user-view": {
     "detail-doctor": {

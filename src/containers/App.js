@@ -22,6 +22,10 @@ import ForgotPW from "./System/Admin/ForgotPW";
 import DetailSpecialty from "./HomePage/User_view/Specialty/DetailSpecialty";
 import DetailClinic from "./HomePage/User_view/Clinic/DetailClinic";
 import ViewMoreDoctor from "./HomePage/User_view/Doctor/ViewMoreDoctor";
+import ViewMoreClinic from "./HomePage/User_view/Clinic/ViewMoreClinic";
+import ViewMoreSpecialty from "./HomePage/User_view/Specialty/ViewMoreSpecialty";
+import DetailHandBook from "./HomePage/User_view/HandBook/DetailHandBook";
+import ViewMoreHandBook from "./HomePage/User_view/HandBook/ViewMoreHandBook";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -74,7 +78,24 @@ class App extends Component {
                     path={path.DETAIL_SPECIALTY}
                     component={DetailSpecialty}
                   />
+                  <Route
+                    path={path.VIEW_MORE_SPECIALTY}
+                    component={ViewMoreSpecialty}
+                  />
                   <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
+                  <Route
+                    path={path.VIEW_MORE_CLINIC}
+                    component={ViewMoreClinic}
+                  />
+                  <Route
+                    path={path.DETAIL_HANDBOOK}
+                    component={DetailHandBook}
+                  />
+                  <Route
+                    path={path.VIEW_MORE_HANDBOOK}
+                    component={ViewMoreHandBook}
+                  />
+
                   <Route
                     path={path.VERIFY_BOOKING_EMAIL}
                     component={VerifyEmail}

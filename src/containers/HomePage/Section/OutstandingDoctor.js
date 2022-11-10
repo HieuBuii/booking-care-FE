@@ -54,7 +54,7 @@ class OutstandingDoctor extends Component {
               className="section-btn"
               onClick={() => this.handleViewMore()}
             >
-              <FormattedMessage id="home-page.view-more" />
+              <FormattedMessage id="home-page.view-all" />
             </button>
           </div>
           <div className="section-body">
