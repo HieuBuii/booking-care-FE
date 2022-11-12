@@ -7,6 +7,7 @@ import DatePicker from "../../../components/Input/DatePicker";
 import {
   getAppointmenDoctorService,
   confirmAppointmentSucceed,
+  cancelAppointment,
 } from "../../../services/userService";
 import ModalSendEmail from "./ModalSendEmail";
 import { LENGUAGES } from "../../../utils";
@@ -89,6 +90,35 @@ class ManageAppointment extends Component {
     });
   };
 
+  handleCancel = async (item) => {
+    this.setState({
+      isLoading: true,
+    });
+    let res = await cancelAppointment({
+      doctorId: item.doctorId,
+      patientId: item.patientId,
+      date: item.date,
+      timeType: item.timeType,
+    });
+    this.setState({
+      isLoading: false,
+    });
+    if (res && res.errCode === 0) {
+      toast.success("Huỷ lịch hẹn thành công !!");
+      let response = await getAppointmenDoctorService(
+        this.props.userInfo.id,
+        this.state.currentDate.getTime()
+      );
+      if (response && response.errCode === 0) {
+        this.setState({
+          data: response.data,
+        });
+      }
+    } else {
+      toast.error("Có lỗi xảy ra, vui lòng thử lại !!");
+    }
+  };
+
   changeShowModal = () => {
     this.setState({
       isShowModal: false,
@@ -167,6 +197,12 @@ class ManageAppointment extends Component {
                               onClick={() => this.handleSendBill(item)}
                             >
                               Gửi hoá đơn
+                            </button>
+                            <button
+                              className="btn btn-cancel"
+                              onClick={() => this.handleCancel(item)}
+                            >
+                              Huỷ lịch hẹn
                             </button>
                           </div>
                         </td>

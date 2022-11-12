@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
+import { withRouter } from "react-router";
 
 class About extends Component {
+  handleViewDetail = (handbook) => {
+    if (this.props.history) {
+      this.props.history.push(`/detail-handbook/7`);
+    }
+  };
   render() {
     return (
       <div className="section-common">
@@ -13,7 +19,10 @@ class About extends Component {
             </h3>
           </div>
           <div className="section-body section-about">
-            <div className="about-image"></div>
+            <div
+              className="about-image"
+              onClick={() => this.handleViewDetail()}
+            ></div>
             <div className="about-content">
               <p>
                 <strong>Health Care</strong> là nền tảng tập trung vào việc đặt
@@ -62,4 +71,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(About);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(About));

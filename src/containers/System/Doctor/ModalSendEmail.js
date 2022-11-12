@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { FormattedMessage } from "react-intl";
-import { LENGUAGES, CommonUtils } from "../../../utils";
+import { CommonUtils } from "../../../utils";
 import _ from "lodash";
 import moment from "moment";
 import { sendEmailToCustomer } from "../../../services/userService";
@@ -175,7 +175,7 @@ class ModalSendEmail extends Component {
 
               <div className="col-6">
                 <label className="form-label">
-                  <FormattedMessage id="manage-user.image" />
+                  <FormattedMessage id="manage-user.add-image" />
                 </label>
                 <div className="input-img-container">
                   <input

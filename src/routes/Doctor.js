@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Header from "../containers/Header/Header";
 import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
 import ManageAppointment from "../containers/System/Doctor/ManageAppointment";
+import ManageHistory from "../containers/System/Doctor/ManageHistory";
 
 class Doctor extends Component {
   render() {
@@ -22,6 +23,10 @@ class Doctor extends Component {
               <Route
                 path="/doctor/manage-appointment"
                 component={ManageAppointment}
+              />
+              <Route
+                path="/doctor/history-appointment"
+                component={ManageHistory}
               />
             </Switch>
           </div>

@@ -63,7 +63,8 @@
     "upload": "Upload image",
     "save": "Add user",
     "edit": "Save change",
-    "desc": "Description of specialty"
+    "desc": "Description of specialty",
+    "add-image": "Add Image"
   },
   "manage-specialty": {
     "title": "Manage specialty",

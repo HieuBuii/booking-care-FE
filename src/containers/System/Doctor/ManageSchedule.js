@@ -227,8 +227,7 @@ class ManageSchedule extends Component {
   };
 
   render() {
-    let role = "",
-      id = "";
+    let role = "";
     if (this.props.userInfo && this.props.userInfo.roleId) {
       role = this.props.userInfo.roleId;
     }

@@ -67,6 +67,10 @@ export const doctorMenu = [
         name: "menu.doctor.manage-appointment",
         link: "/doctor/manage-appointment",
       },
+      {
+        name: "menu.doctor.history-appointment",
+        link: "/doctor/history-appointment",
+      },
       { name: "menu.admin.manage-password", link: "/system/manage-password" },
     ],
   },

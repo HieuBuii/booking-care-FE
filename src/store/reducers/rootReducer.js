@@ -23,10 +23,12 @@ const appPersistConfig = {
   whitelist: ["language"],
 };
 
-export default (history) =>
+const root = (history) =>
   combineReducers({
     router: connectRouter(history),
     user: persistReducer(userPersistConfig, userReducer),
     app: persistReducer(appPersistConfig, appReducer),
     admin: adminReducer,
   });
+
+export default root;

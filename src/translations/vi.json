@@ -63,7 +63,8 @@
     "upload": "Thêm ảnh",
     "save": "Thêm người dùng",
     "edit": "Lưu thay đổi",
-    "desc": "Thông tin chuyên khoa"
+    "desc": "Thông tin chuyên khoa",
+    "add-image": "Thêm ảnh"
   },
   "manage-specialty": {
     "title": "Quản lý chuyên khoa",

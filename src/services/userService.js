@@ -160,12 +160,20 @@ const getAppointmenDoctorService = (doctorId, date) => {
   );
 };
 
+const getHistoryDoctorService = (doctorId, date) => {
+  return axios.get(`/api/get-history-doctor?doctorId=${doctorId}&date=${date}`);
+};
+
 const sendEmailToCustomer = (data) => {
   return axios.post("/api/send-mail-to-customers", data);
 };
 
 const confirmAppointmentSucceed = (data) => {
   return axios.post("/api/confirm-succeed-appointment", data);
+};
+
+const cancelAppointment = (data) => {
+  return axios.post("/api/cancel-appointment", data);
 };
 
 const saveHandBookService = (data) => {
@@ -232,4 +240,6 @@ export {
   editHandBookService,
   deleteHandBookService,
   getHandBookById,
+  cancelAppointment,
+  getHistoryDoctorService,
 };

@@ -64,7 +64,7 @@ class OutstandingDoctor extends Component {
                 arrDoctors.map((item, index) => {
                   let imgBase64 = "";
                   if (item.image) {
-                    imgBase64 = new Buffer(item.image, "base64").toString(
+                    imgBase64 = Buffer.from(item.image, "base64").toString(
                       "binary"
                     );
                   }

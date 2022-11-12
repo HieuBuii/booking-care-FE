@@ -5,7 +5,6 @@ import { withRouter } from "react-router";
 import HomeHeader from "../../HomeHeader";
 import Footer from "../../Section/Footer";
 import { getHandBookById } from "../../../../services/userService";
-import _ from "lodash";
 
 class DetailHandBook extends Component {
   constructor(props) {
