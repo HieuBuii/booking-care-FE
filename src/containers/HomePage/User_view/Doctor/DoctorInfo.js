@@ -97,8 +97,8 @@ class DoctorInfo extends Component {
             {this.props.isShowDesc === true ? (
               <>
                 <p className="detail-doctor-des">
-                  {infoDoctor && infoDoctor.Doctor_intro
-                    ? infoDoctor.Doctor_intro.description
+                  {infoDoctor && infoDoctor.Doctor_Intro
+                    ? infoDoctor.Doctor_Intro.description
                     : ""}
                 </p>
               </>
@@ -110,13 +110,13 @@ class DoctorInfo extends Component {
                 <FormattedMessage id="user-view.booking-modal.price" />{" "}
                 {language === LENGUAGES.VI
                   ? infoDoctor &&
-                    infoDoctor.Doctor_info &&
-                    infoDoctor.Doctor_info.priceTypeData &&
-                    infoDoctor.Doctor_info.priceTypeData.valueVi
+                    infoDoctor.Doctor_Info &&
+                    infoDoctor.Doctor_Info.priceTypeData &&
+                    infoDoctor.Doctor_Info.priceTypeData.valueVi
                   : infoDoctor &&
-                    infoDoctor.Doctor_info &&
-                    infoDoctor.Doctor_info.priceTypeData &&
-                    infoDoctor.Doctor_info.priceTypeData.valueEn}
+                    infoDoctor.Doctor_Info &&
+                    infoDoctor.Doctor_Info.priceTypeData &&
+                    infoDoctor.Doctor_Info.priceTypeData.valueEn}
               </div>
             )}
             {isShowMore === true && (

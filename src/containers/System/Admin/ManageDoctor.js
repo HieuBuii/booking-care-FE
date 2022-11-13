@@ -110,70 +110,70 @@ class ManageDoctor extends Component {
         infoDoctor: this.props.infoDoctor,
         contentHTML:
           this.props.infoDoctor &&
-          this.props.infoDoctor.Doctor_intro &&
-          this.props.infoDoctor.Doctor_intro.contentHTML
-            ? this.props.infoDoctor.Doctor_intro.contentHTML
+          this.props.infoDoctor.Doctor_Intro &&
+          this.props.infoDoctor.Doctor_Intro.contentHTML
+            ? this.props.infoDoctor.Doctor_Intro.contentHTML
             : "",
         contentMarkdown:
           this.props.infoDoctor &&
-          this.props.infoDoctor.Doctor_intro &&
-          this.props.infoDoctor.Doctor_intro.contentMarkdown
-            ? this.props.infoDoctor.Doctor_intro.contentMarkdown
+          this.props.infoDoctor.Doctor_Intro &&
+          this.props.infoDoctor.Doctor_Intro.contentMarkdown
+            ? this.props.infoDoctor.Doctor_Intro.contentMarkdown
             : "",
         doctorDesc:
           this.props.infoDoctor &&
-          this.props.infoDoctor.Doctor_intro &&
-          this.props.infoDoctor.Doctor_intro.description
-            ? this.props.infoDoctor.Doctor_intro.description
+          this.props.infoDoctor.Doctor_Intro &&
+          this.props.infoDoctor.Doctor_Intro.description
+            ? this.props.infoDoctor.Doctor_Intro.description
             : "",
         // addressClinic:
         //   this.props.infoDoctor &&
-        //   this.props.infoDoctor.Doctor_info &&
-        //   this.props.infoDoctor.Doctor_info.addressClinic
-        //     ? this.props.infoDoctor.Doctor_info.addressClinic
+        //   this.props.infoDoctor.Doctor_Info &&
+        //   this.props.infoDoctor.Doctor_Info.addressClinic
+        //     ? this.props.infoDoctor.Doctor_Info.addressClinic
         //     : "",
         // nameClinic:
         //   this.props.infoDoctor &&
-        //   this.props.infoDoctor.Doctor_info &&
-        //   this.props.infoDoctor.Doctor_info.nameClinic
-        //     ? this.props.infoDoctor.Doctor_info.nameClinic
+        //   this.props.infoDoctor.Doctor_Info &&
+        //   this.props.infoDoctor.Doctor_Info.nameClinic
+        //     ? this.props.infoDoctor.Doctor_Info.nameClinic
         //     : "",
         note:
           this.props.infoDoctor &&
-          this.props.infoDoctor.Doctor_info &&
-          this.props.infoDoctor.Doctor_info.note
-            ? this.props.infoDoctor.Doctor_info.note
+          this.props.infoDoctor.Doctor_Info &&
+          this.props.infoDoctor.Doctor_Info.note
+            ? this.props.infoDoctor.Doctor_Info.note
             : "",
       });
       if (
         this.props.infoDoctor &&
-        this.props.infoDoctor.Doctor_info &&
-        this.props.infoDoctor.Doctor_info.paymentId &&
-        this.props.infoDoctor.Doctor_info.priceId &&
-        this.props.infoDoctor.Doctor_info.proviceId &&
-        this.props.infoDoctor.Doctor_info.specialtyId &&
-        this.props.infoDoctor.Doctor_info.clinicId
+        this.props.infoDoctor.Doctor_Info &&
+        this.props.infoDoctor.Doctor_Info.paymentId &&
+        this.props.infoDoctor.Doctor_Info.priceId &&
+        this.props.infoDoctor.Doctor_Info.proviceId &&
+        this.props.infoDoctor.Doctor_Info.specialtyId &&
+        this.props.infoDoctor.Doctor_Info.clinicId
       ) {
         let { listPayment, listPrice, listProvice, listSpecialty, listClinic } =
           this.state;
         let findPayment = listPayment.find(
-          (item) => item.value === this.props.infoDoctor.Doctor_info.paymentId
+          (item) => item.value === this.props.infoDoctor.Doctor_Info.paymentId
         );
         this.setState({ selectedPayment: findPayment });
         let findPrice = listPrice.find(
-          (item) => item.value === this.props.infoDoctor.Doctor_info.priceId
+          (item) => item.value === this.props.infoDoctor.Doctor_Info.priceId
         );
         this.setState({ selectedPrice: findPrice });
         let findProvince = listProvice.find(
-          (item) => item.value === this.props.infoDoctor.Doctor_info.proviceId
+          (item) => item.value === this.props.infoDoctor.Doctor_Info.proviceId
         );
         this.setState({ selectedProvice: findProvince });
         let findSpecialty = listSpecialty.find(
-          (item) => item.value === this.props.infoDoctor.Doctor_info.specialtyId
+          (item) => item.value === this.props.infoDoctor.Doctor_Info.specialtyId
         );
         this.setState({ selectedSpecialty: findSpecialty });
         let findClinic = listClinic.find(
-          (item) => item.value === this.props.infoDoctor.Doctor_info.clinicId
+          (item) => item.value === this.props.infoDoctor.Doctor_Info.clinicId
         );
         this.setState({ selectedClinic: findClinic });
       } else {

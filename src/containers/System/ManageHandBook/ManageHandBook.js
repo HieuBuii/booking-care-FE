@@ -14,7 +14,7 @@ import {
 } from "../../../services/userService";
 import _ from "lodash";
 
-const mdParser = new MarkdownIt(/* Doctor_intro-it options */);
+const mdParser = new MarkdownIt(/* Doctor_Intro-it options */);
 
 class ManageHandBook extends Component {
   constructor(props) {

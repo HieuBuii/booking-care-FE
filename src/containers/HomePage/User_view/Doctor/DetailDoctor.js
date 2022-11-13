@@ -38,8 +38,8 @@ class DetailDoctor extends Component {
       valueEn = `${infoDoctor.positionData.valueEn}, ${infoDoctor.firstName} ${infoDoctor.lastName}`;
     }
     let dataContent =
-      infoDoctor && infoDoctor.Doctor_intro
-        ? infoDoctor.Doctor_intro.contentHTML
+      infoDoctor && infoDoctor.Doctor_Intro
+        ? infoDoctor.Doctor_Intro.contentHTML
         : "";
     return (
       <>
@@ -63,8 +63,8 @@ class DetailDoctor extends Component {
                 {language === LENGUAGES.VI ? valueVi : valueEn}
               </p>
               <p className="detail-doctor-des">
-                {infoDoctor && infoDoctor.Doctor_intro
-                  ? infoDoctor.Doctor_intro.description
+                {infoDoctor && infoDoctor.Doctor_Intro
+                  ? infoDoctor.Doctor_Intro.description
                   : ""}
               </p>
             </div>
