@@ -71,7 +71,7 @@
           font-weight: bold;
           overflow: hidden;
           display: -webkit-box;
-          -webkit-line-clamp: 3;
+          -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           max-width: 400px;
         }
@@ -83,16 +83,17 @@
       &.section-about {
         display: flex;
         justify-content: space-between;
+        gap: 20px;
         align-items: center;
         font-size: 15px;
         text-align: justify;
         .about-content {
           height: 100%;
-          width: 55%;
+          width: calc(55% - 10px);
         }
 
         .about-image {
-          width: 45%;
+          width: calc(45% - 10px);
           background: url("../../assets/images/about.jpg") center center /
             contain no-repeat;
           height: 400px;

@@ -14,8 +14,9 @@ import {
   deleteSpecialtyService,
 } from "../../../services/userService";
 import _ from "lodash";
+import LoadingOverlay from "react-loading-overlay";
 
-const mdParser = new MarkdownIt(/* Doctor_Intro-it options */);
+const mdParser = new MarkdownIt();
 
 class ManageSpecialty extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class ManageSpecialty extends Component {
       idSpecialty: "",
       statusSubmit: "ADD",
       token: "",
+      isLoading: false,
     };
   }
 
@@ -47,6 +49,12 @@ class ManageSpecialty extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {}
+
+  handleShowLoading = (boolean) => {
+    this.setState({
+      isLoading: boolean,
+    });
+  };
 
   handleAddImg = async (e) => {
     let data = e.target.files;
@@ -85,6 +93,7 @@ class ManageSpecialty extends Component {
     if (this.state.statusSubmit === "ADD") {
       let isValid = this.validInput();
       if (isValid) {
+        this.handleShowLoading(true);
         let res = await saveSpecialtyService(
           {
             image: this.state.image,
@@ -95,6 +104,7 @@ class ManageSpecialty extends Component {
           },
           token
         );
+        this.handleShowLoading(false);
         if (res && res.errCode === 0) {
           toast.success(
             <FormattedMessage id="manage-specialty.save-succeed" />
@@ -117,6 +127,7 @@ class ManageSpecialty extends Component {
     if (this.state.statusSubmit === "EDIT") {
       let isValid = this.validInput();
       if (isValid) {
+        this.handleShowLoading(true);
         let res = await editSpecialtyService({
           image: this.state.image,
           nameVi: this.state.nameVi,
@@ -125,6 +136,7 @@ class ManageSpecialty extends Component {
           contentMarkdown: this.state.contentMarkdown,
           id: this.state.idSpecialty,
         });
+        this.handleShowLoading(false);
         if (res && res.errCode === 0) {
           toast.success(
             <FormattedMessage id="manage-specialty.save-succeed" />
@@ -181,7 +193,9 @@ class ManageSpecialty extends Component {
 
   handleDeleteSpecialty = async (item) => {
     if (item && !_.isEmpty(item)) {
+      this.handleShowLoading(true);
       let res = await deleteSpecialtyService(item.id);
+      this.handleShowLoading(false);
       if (res && res.errCode === 0) {
         toast.success(
           <FormattedMessage id="manage-specialty.delete-succeed" />
@@ -203,131 +217,135 @@ class ManageSpecialty extends Component {
     let file = this.state.previewImg;
     return (
       <>
-        <div className="manage-specialty-container">
-          <div className="title">
-            <FormattedMessage id="manage-specialty.title" />
-          </div>
-          <div className="manage-body container">
-            <form className="row g-3 mt-5">
-              <div className="col-md-4">
-                <label className="form-label">
-                  <FormattedMessage id="manage-specialty.nameVi-specialty" />
-                </label>
-                <input
-                  type="nameSpecialty"
-                  className="form-control"
-                  onChange={(e) => this.handleChangeInput(e, "nameVi")}
-                  value={this.state.nameVi}
-                />
-              </div>
-              <div className="col-md-4">
-                <label className="form-label">
-                  <FormattedMessage id="manage-specialty.nameEn-specialty" />
-                </label>
-                <input
-                  type="nameSpecialty"
-                  className="form-control"
-                  onChange={(e) => this.handleChangeInput(e, "nameEn")}
-                  value={this.state.nameEn}
-                />
-              </div>
-              <div className="col-md-4 manage-specialty-img">
-                <label className="form-label">
-                  <FormattedMessage id="manage-specialty.image-specialty" />
-                </label>
-                <div className="input-img-container">
-                  <input
-                    type="file"
-                    id="input-img"
-                    hidden
-                    onChange={(e) => this.handleAddImg(e)}
-                  />
-                  <label htmlFor="input-img" className="img-label">
-                    <FormattedMessage id="manage-user.upload" />{" "}
-                    <i className="fas fa-upload"></i>
+        <LoadingOverlay active={this.state.isLoading} spinner text="Loading...">
+          <div className="manage-specialty-container">
+            <div className="title">
+              <FormattedMessage id="manage-specialty.title" />
+            </div>
+            <div className="manage-body container">
+              <form className="row g-3 mt-5">
+                <div className="col-md-4">
+                  <label className="form-label">
+                    <FormattedMessage id="manage-specialty.nameVi-specialty" />
                   </label>
-                  {this.state.previewImg && (
-                    <div
-                      className="img-preview"
-                      style={{ backgroundImage: `url(${file})` }}
-                    ></div>
-                  )}
+                  <input
+                    type="nameSpecialty"
+                    className="form-control"
+                    onChange={(e) => this.handleChangeInput(e, "nameVi")}
+                    value={this.state.nameVi}
+                  />
                 </div>
-              </div>
-              <div className="col-12">
-                <div className="mb-2">
-                  <FormattedMessage id="manage-user.desc" />
+                <div className="col-md-4">
+                  <label className="form-label">
+                    <FormattedMessage id="manage-specialty.nameEn-specialty" />
+                  </label>
+                  <input
+                    type="nameSpecialty"
+                    className="form-control"
+                    onChange={(e) => this.handleChangeInput(e, "nameEn")}
+                    value={this.state.nameEn}
+                  />
                 </div>
-                <MdEditor
-                  style={{ height: "400px" }}
-                  renderHTML={(text) => mdParser.render(text)}
-                  onChange={this.handleEditorChange}
-                  value={
-                    this.state.contentMarkdown ? this.state.contentMarkdown : ""
-                  }
-                />
-              </div>
-              <div className="col-12">
-                <button
-                  className="btn-primary px-3 btn-submit"
-                  onClick={(e) => this.handleSubmit(e)}
-                >
-                  <FormattedMessage id="manage-specialty.save" />
-                </button>
-              </div>
-            </form>
+                <div className="col-md-4 manage-specialty-img">
+                  <label className="form-label">
+                    <FormattedMessage id="manage-specialty.image-specialty" />
+                  </label>
+                  <div className="input-img-container">
+                    <input
+                      type="file"
+                      id="input-img"
+                      hidden
+                      onChange={(e) => this.handleAddImg(e)}
+                    />
+                    <label htmlFor="input-img" className="img-label">
+                      <FormattedMessage id="manage-user.upload" />{" "}
+                      <i className="fas fa-upload"></i>
+                    </label>
+                    {this.state.previewImg && (
+                      <div
+                        className="img-preview"
+                        style={{ backgroundImage: `url(${file})` }}
+                      ></div>
+                    )}
+                  </div>
+                </div>
+                <div className="col-12">
+                  <div className="mb-2">
+                    <FormattedMessage id="manage-user.desc" />
+                  </div>
+                  <MdEditor
+                    style={{ height: "400px" }}
+                    renderHTML={(text) => mdParser.render(text)}
+                    onChange={this.handleEditorChange}
+                    value={
+                      this.state.contentMarkdown
+                        ? this.state.contentMarkdown
+                        : ""
+                    }
+                  />
+                </div>
+                <div className="col-12">
+                  <button
+                    className="btn-primary px-3 btn-submit"
+                    onClick={(e) => this.handleSubmit(e)}
+                  >
+                    <FormattedMessage id="manage-specialty.save" />
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-        <div className="users-container container my-5">
-          <table id="customers">
-            <thead>
-              <tr>
-                <th>
-                  <FormattedMessage id="manage-specialty.order" />
-                </th>
-                <th>
-                  <FormattedMessage id="manage-specialty.nameVi-specialty" />
-                </th>
-                <th>
-                  <FormattedMessage id="manage-specialty.nameEn-specialty" />
-                </th>
-                <th>
-                  <FormattedMessage id="manage-specialty.options" />
-                </th>
-              </tr>
-            </thead>
+          <div className="users-container container my-5">
+            <table id="customers">
+              <thead>
+                <tr>
+                  <th>
+                    <FormattedMessage id="manage-specialty.order" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="manage-specialty.nameVi-specialty" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="manage-specialty.nameEn-specialty" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="manage-specialty.options" />
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {listSpecialty &&
-                listSpecialty.length > 0 &&
-                listSpecialty.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{item.nameVi}</td>
-                      <td>{item.nameEn}</td>
-                      <td>
-                        <div>
-                          <button
-                            className="btn btn-edit"
-                            onClick={() => this.handleEditSpecialty(item)}
-                          >
-                            <i className="fas fa-pencil-alt"></i>
-                          </button>
-                          <button
-                            className="btn btn-delete"
-                            onClick={() => this.handleDeleteSpecialty(item)}
-                          >
-                            <i className="fas fa-trash"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
+              <tbody>
+                {listSpecialty &&
+                  listSpecialty.length > 0 &&
+                  listSpecialty.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{item.nameVi}</td>
+                        <td>{item.nameEn}</td>
+                        <td>
+                          <div>
+                            <button
+                              className="btn btn-edit"
+                              onClick={() => this.handleEditSpecialty(item)}
+                            >
+                              <i className="fas fa-pencil-alt"></i>
+                            </button>
+                            <button
+                              className="btn btn-delete"
+                              onClick={() => this.handleDeleteSpecialty(item)}
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        </LoadingOverlay>
       </>
     );
   }

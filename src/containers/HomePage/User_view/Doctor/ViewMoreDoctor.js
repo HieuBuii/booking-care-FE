@@ -11,6 +11,7 @@ import DoctorInfo from "../Doctor/DoctorInfo";
 import { getAllDoctorForHome } from "../../../../services/userService";
 import { LENGUAGES } from "../../../../utils";
 import Footer from "../../Section/Footer";
+import LoadingOverlay from "react-loading-overlay";
 
 class ViewMoreDoctor extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class ViewMoreDoctor extends Component {
       listDoctorId: [],
       listDoctors: [],
       selectedDoctor: "",
+      isLoading: false,
     };
   }
 
@@ -69,54 +71,65 @@ class ViewMoreDoctor extends Component {
     }
   };
 
+  handleShowLoading = (boolean) => {
+    this.setState({
+      isLoading: boolean,
+    });
+  };
+
   render() {
     let { listDoctorId, selectedDoctor } = this.state;
     return (
       <>
-        <div className="detail-specialty-container">
-          <HomeHeader />
+        <LoadingOverlay active={this.state.isLoading} spinner text="Loading...">
+          <div className="detail-specialty-container">
+            <HomeHeader />
 
-          <div className="detail-view-more-content container">
-            <h1 className="title-content">
-              <FormattedMessage id="home-page.search-doctor" />
-            </h1>
-            <Select
-              value={selectedDoctor}
-              onChange={this.handleChangeSelect}
-              options={this.state.listDoctors}
-              name={"selectedDoctor"}
-              placeholder={<FormattedMessage id="home-page.search-doctor" />}
-            />
-          </div>
+            <div className="detail-view-more-content container">
+              <h1 className="title-content">
+                <FormattedMessage id="home-page.search-doctor" />
+              </h1>
+              <Select
+                value={selectedDoctor}
+                onChange={this.handleChangeSelect}
+                options={this.state.listDoctors}
+                name={"selectedDoctor"}
+                placeholder={<FormattedMessage id="home-page.search-doctor" />}
+              />
+            </div>
 
-          <div className="detail-specialty-body">
-            {listDoctorId &&
-              listDoctorId.length > 0 &&
-              listDoctorId.map((item, index) => {
-                return (
-                  <div className="about-doctor container" key={index}>
-                    <div className="about-detail-doctor">
-                      <DoctorInfo
-                        idDoctor={item}
-                        isShowDesc={true}
-                        isShowPrice={false}
-                        isShowMore={true}
-                      />
-                    </div>
-                    <div className="about-schedule-doctor">
-                      <div className="schedule-doctor">
-                        <DoctorSchedule idDoctor={item} />
+            <div className="detail-specialty-body">
+              {listDoctorId &&
+                listDoctorId.length > 0 &&
+                listDoctorId.map((item, index) => {
+                  return (
+                    <div className="about-doctor container" key={index}>
+                      <div className="about-detail-doctor">
+                        <DoctorInfo
+                          idDoctor={item}
+                          isShowDesc={true}
+                          isShowPrice={false}
+                          isShowMore={true}
+                        />
                       </div>
-                      <div className="more-info-doctor">
-                        <DoctorMore idDoctor={item} />
+                      <div className="about-schedule-doctor">
+                        <div className="schedule-doctor">
+                          <DoctorSchedule
+                            idDoctor={item}
+                            handleShowLoadingFromParent={this.handleShowLoading}
+                          />
+                        </div>
+                        <div className="more-info-doctor">
+                          <DoctorMore idDoctor={item} />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+            </div>
           </div>
-        </div>
-        <Footer />
+          <Footer />
+        </LoadingOverlay>
       </>
     );
   }

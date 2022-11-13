@@ -13,6 +13,7 @@ import {
 } from "../../../../services/userService";
 import _ from "lodash";
 import { LENGUAGES } from "../../../../utils/constant";
+import LoadingOverlay from "react-loading-overlay";
 
 class DetailSpecialty extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class DetailSpecialty extends Component {
       dataDetailSpecialty: [],
       listProvince: [],
       isShowMore: false,
+      isLoading: false,
     };
   }
 
@@ -115,6 +117,12 @@ class DetailSpecialty extends Component {
     });
   };
 
+  handleShowLoading = (boolean) => {
+    this.setState({
+      isLoading: boolean,
+    });
+  };
+
   render() {
     const { listDoctorId, dataDetailSpecialty, listProvince, isShowMore } =
       this.state;
@@ -122,76 +130,81 @@ class DetailSpecialty extends Component {
     let dataContent = dataDetailSpecialty.contentHTML;
     return (
       <>
-        <div className="detail-specialty-container">
-          <HomeHeader />
-          {isShowMore === false ? (
-            <div
-              className="detail-specialty-content container"
-              style={{ height: "500px", overflow: "hidden" }}
-            >
-              <div dangerouslySetInnerHTML={{ __html: dataContent }} />
+        <LoadingOverlay active={this.state.isLoading} spinner text="Loading...">
+          <div className="detail-specialty-container">
+            <HomeHeader />
+            {isShowMore === false ? (
               <div
-                className="view-more"
-                onClick={() => this.handleShowContent()}
+                className="detail-specialty-content container"
+                style={{ height: "500px", overflow: "hidden" }}
               >
-                Xem thêm
+                <div dangerouslySetInnerHTML={{ __html: dataContent }} />
+                <div
+                  className="view-more"
+                  onClick={() => this.handleShowContent()}
+                >
+                  Xem thêm
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="detail-specialty-content container">
-              <div dangerouslySetInnerHTML={{ __html: dataContent }} />
-              <div
-                className="view-more"
-                onClick={() => this.handleShowContent()}
-              >
-                Ẩn bớt
+            ) : (
+              <div className="detail-specialty-content container">
+                <div dangerouslySetInnerHTML={{ __html: dataContent }} />
+                <div
+                  className="view-more"
+                  onClick={() => this.handleShowContent()}
+                >
+                  Ẩn bớt
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          <div className="detail-specialty-body">
-            <div className="select-province container">
-              <select onChange={(e) => this.handleOnchangeProv(e)}>
-                {listProvince &&
-                  listProvince.length > 0 &&
-                  listProvince.map((item, index) => {
-                    return (
-                      <option key={index} value={item.keyMap}>
-                        {language === LENGUAGES.VI
-                          ? item.valueVi
-                          : item.valueEn}
-                      </option>
-                    );
-                  })}
-              </select>
+            <div className="detail-specialty-body">
+              <div className="select-province container">
+                <select onChange={(e) => this.handleOnchangeProv(e)}>
+                  {listProvince &&
+                    listProvince.length > 0 &&
+                    listProvince.map((item, index) => {
+                      return (
+                        <option key={index} value={item.keyMap}>
+                          {language === LENGUAGES.VI
+                            ? item.valueVi
+                            : item.valueEn}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+              {listDoctorId &&
+                listDoctorId.length > 0 &&
+                listDoctorId.map((item, index) => {
+                  return (
+                    <div className="about-doctor container" key={index}>
+                      <div className="about-detail-doctor">
+                        <DoctorInfo
+                          idDoctor={item}
+                          isShowDesc={true}
+                          isShowPrice={false}
+                          isShowMore={true}
+                        />
+                      </div>
+                      <div className="about-schedule-doctor">
+                        <div className="schedule-doctor">
+                          <DoctorSchedule
+                            idDoctor={item}
+                            handleShowLoadingFromParent={this.handleShowLoading}
+                          />
+                        </div>
+                        <div className="more-info-doctor">
+                          <DoctorMore idDoctor={item} />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
-            {listDoctorId &&
-              listDoctorId.length > 0 &&
-              listDoctorId.map((item, index) => {
-                return (
-                  <div className="about-doctor container" key={index}>
-                    <div className="about-detail-doctor">
-                      <DoctorInfo
-                        idDoctor={item}
-                        isShowDesc={true}
-                        isShowPrice={false}
-                        isShowMore={true}
-                      />
-                    </div>
-                    <div className="about-schedule-doctor">
-                      <div className="schedule-doctor">
-                        <DoctorSchedule idDoctor={item} />
-                      </div>
-                      <div className="more-info-doctor">
-                        <DoctorMore idDoctor={item} />
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
           </div>
-        </div>
-        <Footer />
+          <Footer />
+        </LoadingOverlay>
       </>
     );
   }

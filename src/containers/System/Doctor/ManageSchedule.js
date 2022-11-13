@@ -14,6 +14,7 @@ import {
   deleteScheduleDoctorService,
 } from "../../../services/userService";
 import moment from "moment";
+import LoadingOverlay from "react-loading-overlay";
 
 class ManageSchedule extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class ManageSchedule extends Component {
       listDoctors: [],
       rangeTime: [],
       dataTime: [],
+      isLoading: false,
       // maxPatient: "1",
     };
   }
@@ -167,11 +169,13 @@ class ManageSchedule extends Component {
         return;
       }
     }
+    this.handleShowLoading(true);
     let res = await saveScheduleService({
       arrSchedule: result,
       doctorId: role && role === "R1" ? selectedDoctor.value : id,
       formatDate: formatDate,
     });
+    this.handleShowLoading(false);
     if (res && res.errCode === 0) {
       toast.success("Save Schedule Success !!");
       let { selectedDoctor, currentDate } = this.state;
@@ -206,7 +210,9 @@ class ManageSchedule extends Component {
       role = this.props.userInfo.roleId;
       id = this.props.userInfo.id;
     }
+    this.handleShowLoading(true);
     let res = await deleteScheduleDoctorService(item.id);
+    this.handleShowLoading(false);
     if (res && res.errCode === 0) {
       toast.success("Delete Schedule Succeed !!");
     } else {
@@ -226,6 +232,12 @@ class ManageSchedule extends Component {
     }
   };
 
+  handleShowLoading = (boolean) => {
+    this.setState({
+      isLoading: boolean,
+    });
+  };
+
   render() {
     let role = "";
     if (this.props.userInfo && this.props.userInfo.roleId) {
@@ -234,125 +246,127 @@ class ManageSchedule extends Component {
     let { rangeTime, timeData } = this.state;
     let { language } = this.props;
     return (
-      <div className="manage-schedule-container">
-        <div className="title mb-4">
-          <FormattedMessage id="menu.doctor.manage-schedule" />
-        </div>
-        <div className="container">
-          <div className="row content-top center">
-            {role && role === "R1" && (
-              <div className="col-6 form-group content-top-left">
+      <LoadingOverlay active={this.state.isLoading} spinner text="Loading...">
+        <div className="manage-schedule-container">
+          <div className="title mb-4">
+            <FormattedMessage id="menu.doctor.manage-schedule" />
+          </div>
+          <div className="container">
+            <div className="row content-top center">
+              {role && role === "R1" && (
+                <div className="col-6 form-group content-top-left">
+                  <label>
+                    <FormattedMessage id="menu.doctor.choose-doctor" />
+                  </label>
+                  <Select
+                    value={this.state.selectedDoctor}
+                    onChange={this.handleChangeSelect}
+                    options={this.state.listDoctors}
+                  />
+                </div>
+              )}
+              <div className="col-6 form-group content-top-right">
                 <label>
-                  <FormattedMessage id="menu.doctor.choose-doctor" />
+                  <FormattedMessage id="menu.doctor.choose-date" />
                 </label>
-                <Select
-                  value={this.state.selectedDoctor}
-                  onChange={this.handleChangeSelect}
-                  options={this.state.listDoctors}
+                <DatePicker
+                  className="form-control"
+                  onChange={this.handleOnchangeDatePicker}
+                  value={this.state.currentDate}
+                  minDate={new Date().setHours(0, 0, 0, 0)}
                 />
               </div>
-            )}
-            <div className="col-6 form-group content-top-right">
-              <label>
-                <FormattedMessage id="menu.doctor.choose-date" />
-              </label>
-              <DatePicker
-                className="form-control"
-                onChange={this.handleOnchangeDatePicker}
-                value={this.state.currentDate}
-                minDate={new Date().setHours(0, 0, 0, 0)}
-              />
             </div>
           </div>
-        </div>
-        <div className="content-bottom">
-          <div className="container">
-            <div className="row">
-              {rangeTime &&
-                rangeTime.length > 0 &&
-                rangeTime.map((item, index) => {
-                  return (
-                    <div key={index} className="col-3 time-schedule">
-                      <button
-                        onClick={() => this.handleSelectSchedule(item)}
-                        className={
-                          item.isSelected === true
-                            ? "btn-time selected"
-                            : "btn-time"
-                        }
-                      >
-                        {language === LENGUAGES.VI
-                          ? item.valueVi
-                          : item.valueEn}
-                      </button>
-                    </div>
-                  );
-                })}
+          <div className="content-bottom">
+            <div className="container">
+              <div className="row">
+                {rangeTime &&
+                  rangeTime.length > 0 &&
+                  rangeTime.map((item, index) => {
+                    return (
+                      <div key={index} className="col-3 time-schedule">
+                        <button
+                          onClick={() => this.handleSelectSchedule(item)}
+                          className={
+                            item.isSelected === true
+                              ? "btn-time selected"
+                              : "btn-time"
+                          }
+                        >
+                          {language === LENGUAGES.VI
+                            ? item.valueVi
+                            : item.valueEn}
+                        </button>
+                      </div>
+                    );
+                  })}
+              </div>
+              <button
+                className="btn-primary btn-save"
+                onClick={() => this.handleSubmit()}
+              >
+                <FormattedMessage id="menu.doctor.save-schedule" />
+              </button>
             </div>
-            <button
-              className="btn-primary btn-save"
-              onClick={() => this.handleSubmit()}
-            >
-              <FormattedMessage id="menu.doctor.save-schedule" />
-            </button>
           </div>
-        </div>
-        <div className="users-container container my-5">
-          <table id="customers">
-            <thead>
-              <tr>
-                <th>
-                  <FormattedMessage id="menu.doctor.date" />
-                </th>
-                <th>
-                  <FormattedMessage id="menu.doctor.time" />
-                </th>
-                <th>
-                  <FormattedMessage id="manage-specialty.options" />
-                </th>
-              </tr>
-            </thead>
+          <div className="users-container container my-5">
+            <table id="customers">
+              <thead>
+                <tr>
+                  <th>
+                    <FormattedMessage id="menu.doctor.date" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="menu.doctor.time" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="manage-specialty.options" />
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {timeData &&
-                timeData.length > 0 &&
-                timeData.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>
-                        {this.props.language === LENGUAGES.VI
-                          ? this.capitalizeFirstLetter(
-                              moment
+              <tbody>
+                {timeData &&
+                  timeData.length > 0 &&
+                  timeData.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>
+                          {this.props.language === LENGUAGES.VI
+                            ? this.capitalizeFirstLetter(
+                                moment
+                                  .unix(+item.date / 1000)
+                                  .format("dddd - DD/MM/YYYY")
+                              )
+                            : moment
                                 .unix(+item.date / 1000)
-                                .format("dddd - DD/MM/YYYY")
-                            )
-                          : moment
-                              .unix(+item.date / 1000)
-                              .locale("en")
-                              .format("ddd - MM/DD/YYYY")}
-                      </td>
-                      <td>
-                        {this.props.language === LENGUAGES.VI
-                          ? item.timeTypeData.valueVi
-                          : item.timeTypeData.valueEn}
-                      </td>
-                      <td>
-                        <div>
-                          <button
-                            className="btn btn-delete"
-                            onClick={() => this.handleDeleteSchedule(item)}
-                          >
-                            <i className="fas fa-trash"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+                                .locale("en")
+                                .format("ddd - MM/DD/YYYY")}
+                        </td>
+                        <td>
+                          {this.props.language === LENGUAGES.VI
+                            ? item.timeTypeData.valueVi
+                            : item.timeTypeData.valueEn}
+                        </td>
+                        <td>
+                          <div>
+                            <button
+                              className="btn btn-delete"
+                              onClick={() => this.handleDeleteSchedule(item)}
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </LoadingOverlay>
     );
   }
 }

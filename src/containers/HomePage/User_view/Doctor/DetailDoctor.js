@@ -7,12 +7,14 @@ import "./DetailDoctor.scss";
 import DoctorSchedule from "./DoctorSchedule";
 import DoctorMore from "./DoctorMore";
 import Footer from "../../Section/Footer";
+import LoadingOverlay from "react-loading-overlay";
 
 class DetailDoctor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       infoDoctor: [],
+      isLoading: false,
     };
   }
 
@@ -27,6 +29,12 @@ class DetailDoctor extends Component {
   componentDidMount() {
     this.props.getInfoDoctor(this.props.match.params.id);
   }
+
+  handleShowLoading = (boolean) => {
+    this.setState({
+      isLoading: boolean,
+    });
+  };
 
   render() {
     let { infoDoctor } = this.state;
@@ -43,60 +51,63 @@ class DetailDoctor extends Component {
         : "";
     return (
       <>
-        <HomeHeader />
+        <LoadingOverlay active={this.state.isLoading} spinner text="Loading...">
+          <HomeHeader />
 
-        <div className="container detail-doctor-top">
-          <div className="content-detail-top">
-            <div className="detail-doctor-top-left">
-              <div
-                className="avatar-doctor"
-                style={{
-                  backgroundImage:
-                    infoDoctor && infoDoctor.image
-                      ? `url(${infoDoctor.image})`
-                      : "",
-                }}
-              ></div>
+          <div className="container detail-doctor-top">
+            <div className="content-detail-top">
+              <div className="detail-doctor-top-left">
+                <div
+                  className="avatar-doctor"
+                  style={{
+                    backgroundImage:
+                      infoDoctor && infoDoctor.image
+                        ? `url(${infoDoctor.image})`
+                        : "",
+                  }}
+                ></div>
+              </div>
+              <div className="detail-doctor-top-right">
+                <p className="detail-doctor-title">
+                  {language === LENGUAGES.VI ? valueVi : valueEn}
+                </p>
+                <p className="detail-doctor-des">
+                  {infoDoctor && infoDoctor.Doctor_Intro
+                    ? infoDoctor.Doctor_Intro.description
+                    : ""}
+                </p>
+              </div>
             </div>
-            <div className="detail-doctor-top-right">
-              <p className="detail-doctor-title">
-                {language === LENGUAGES.VI ? valueVi : valueEn}
-              </p>
-              <p className="detail-doctor-des">
-                {infoDoctor && infoDoctor.Doctor_Intro
-                  ? infoDoctor.Doctor_Intro.description
-                  : ""}
-              </p>
+            <div className="schedule-doctor-container">
+              <div className="schedule-left">
+                <DoctorSchedule
+                  idDoctor={
+                    this.state.infoDoctor && this.state.infoDoctor.id
+                      ? this.state.infoDoctor.id
+                      : -1
+                  }
+                  handleShowLoadingFromParent={this.handleShowLoading}
+                />
+              </div>
+              <div className="schedule-right">
+                <DoctorMore
+                  idDoctor={
+                    this.state.infoDoctor && this.state.infoDoctor.id
+                      ? this.state.infoDoctor.id
+                      : -1
+                  }
+                />
+              </div>
             </div>
           </div>
-          <div className="schedule-doctor-container">
-            <div className="schedule-left">
-              <DoctorSchedule
-                idDoctor={
-                  this.state.infoDoctor && this.state.infoDoctor.id
-                    ? this.state.infoDoctor.id
-                    : -1
-                }
-              />
-            </div>
-            <div className="schedule-right">
-              <DoctorMore
-                idDoctor={
-                  this.state.infoDoctor && this.state.infoDoctor.id
-                    ? this.state.infoDoctor.id
-                    : -1
-                }
-              />
+          <div className="detail-doctor-content">
+            <div className="container detail-content">
+              <div dangerouslySetInnerHTML={{ __html: dataContent }} />
             </div>
           </div>
-        </div>
-        <div className="detail-doctor-content">
-          <div className="container detail-content">
-            <div dangerouslySetInnerHTML={{ __html: dataContent }} />
-          </div>
-        </div>
-        <div className="detail-doctor-comments"></div>
-        <Footer />
+          <div className="detail-doctor-comments"></div>
+          <Footer />
+        </LoadingOverlay>
       </>
     );
   }

@@ -13,8 +13,9 @@ import {
   deleteHandBookService,
 } from "../../../services/userService";
 import _ from "lodash";
+import LoadingOverlay from "react-loading-overlay";
 
-const mdParser = new MarkdownIt(/* Doctor_Intro-it options */);
+const mdParser = new MarkdownIt();
 
 class ManageHandBook extends Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class ManageHandBook extends Component {
       listHandBook: [],
       idHandBook: "",
       statusSubmit: "ADD",
+      isLoading: false,
     };
   }
 
@@ -71,6 +73,12 @@ class ManageHandBook extends Component {
     });
   };
 
+  handleShowLoading = (boolean) => {
+    this.setState({
+      isLoading: boolean,
+    });
+  };
+
   handleSubmit = async (e) => {
     let userId = "";
     if (this.props.userInfo && this.props.userInfo.id) {
@@ -80,6 +88,7 @@ class ManageHandBook extends Component {
     if (this.state.statusSubmit === "ADD") {
       let isValid = this.validInput();
       if (isValid) {
+        this.handleShowLoading(true);
         let res = await saveHandBookService({
           userId: userId,
           image: this.state.image,
@@ -88,6 +97,7 @@ class ManageHandBook extends Component {
           contentHTML: this.state.contentHTML,
           contentMarkdown: this.state.contentMarkdown,
         });
+        this.handleShowLoading(false);
         if (res && res.errCode === 0) {
           toast.success(
             <FormattedMessage id="manage-specialty.save-succeed" />
@@ -110,6 +120,7 @@ class ManageHandBook extends Component {
     if (this.state.statusSubmit === "EDIT") {
       let isValid = this.validInput();
       if (isValid) {
+        this.handleShowLoading(true);
         let res = await editHandBookService({
           image: this.state.image,
           name: this.state.name,
@@ -118,6 +129,7 @@ class ManageHandBook extends Component {
           contentMarkdown: this.state.contentMarkdown,
           id: this.state.idHandBook,
         });
+        this.handleShowLoading(false);
         if (res && res.errCode === 0) {
           toast.success(
             <FormattedMessage id="manage-specialty.save-succeed" />
@@ -174,7 +186,9 @@ class ManageHandBook extends Component {
 
   handleDeleteClinic = async (item) => {
     if (item && !_.isEmpty(item)) {
+      this.handleShowLoading(true);
       let res = await deleteHandBookService(item.id);
+      this.handleShowLoading(false);
       if (res && res.errCode === 0) {
         toast.success(<FormattedMessage id="manage-clinic.delete-succeed" />);
       } else {
@@ -201,131 +215,135 @@ class ManageHandBook extends Component {
     let file = this.state.previewImg;
     return (
       <>
-        <div className="manage-specialty-container">
-          <div className="title">
-            <FormattedMessage id="manage-handbook.title" />
-          </div>
-          <div className="manage-body container">
-            <form className="row g-3 mt-5">
-              <div className="col-md-4">
-                <label className="form-label">
-                  <FormattedMessage id="manage-handbook.name" />
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  onChange={(e) => this.handleChangeInput(e, "name")}
-                  value={this.state.name}
-                />
-              </div>
-              <div className="col-md-4">
-                <label className="form-label">
-                  <FormattedMessage id="manage-handbook.author" />
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  onChange={(e) => this.handleChangeInput(e, "author")}
-                  value={this.state.author}
-                />
-              </div>
-              <div className="col-md-4 manage-specialty-img">
-                <label className="form-label">
-                  <FormattedMessage id="manage-handbook.image" />
-                </label>
-                <div className="input-img-container">
-                  <input
-                    type="file"
-                    id="input-img"
-                    hidden
-                    onChange={(e) => this.handleAddImg(e)}
-                  />
-                  <label htmlFor="input-img" className="img-label">
-                    <FormattedMessage id="manage-user.upload" />{" "}
-                    <i className="fas fa-upload"></i>
+        <LoadingOverlay active={this.state.isLoading} spinner text="Loading...">
+          <div className="manage-specialty-container">
+            <div className="title">
+              <FormattedMessage id="manage-handbook.title" />
+            </div>
+            <div className="manage-body container">
+              <form className="row g-3 mt-5">
+                <div className="col-md-4">
+                  <label className="form-label">
+                    <FormattedMessage id="manage-handbook.name" />
                   </label>
-                  {this.state.previewImg && (
-                    <div
-                      className="img-preview"
-                      style={{ backgroundImage: `url(${file})` }}
-                    ></div>
-                  )}
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => this.handleChangeInput(e, "name")}
+                    value={this.state.name}
+                  />
                 </div>
-              </div>
-              <div className="col-12">
-                <div className="mb-2">
-                  <FormattedMessage id="manage-handbook.content" />
+                <div className="col-md-4">
+                  <label className="form-label">
+                    <FormattedMessage id="manage-handbook.author" />
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => this.handleChangeInput(e, "author")}
+                    value={this.state.author}
+                  />
                 </div>
-                <MdEditor
-                  style={{ height: "400px" }}
-                  renderHTML={(text) => mdParser.render(text)}
-                  onChange={this.handleEditorChange}
-                  value={
-                    this.state.contentMarkdown ? this.state.contentMarkdown : ""
-                  }
-                />
-              </div>
-              <div className="col-12">
-                <button
-                  className="btn-primary px-3 btn-submit"
-                  onClick={(e) => this.handleSubmit(e)}
-                >
-                  <FormattedMessage id="manage-specialty.save" />
-                </button>
-              </div>
-            </form>
+                <div className="col-md-4 manage-specialty-img">
+                  <label className="form-label">
+                    <FormattedMessage id="manage-handbook.image" />
+                  </label>
+                  <div className="input-img-container">
+                    <input
+                      type="file"
+                      id="input-img"
+                      hidden
+                      onChange={(e) => this.handleAddImg(e)}
+                    />
+                    <label htmlFor="input-img" className="img-label">
+                      <FormattedMessage id="manage-user.upload" />{" "}
+                      <i className="fas fa-upload"></i>
+                    </label>
+                    {this.state.previewImg && (
+                      <div
+                        className="img-preview"
+                        style={{ backgroundImage: `url(${file})` }}
+                      ></div>
+                    )}
+                  </div>
+                </div>
+                <div className="col-12">
+                  <div className="mb-2">
+                    <FormattedMessage id="manage-handbook.content" />
+                  </div>
+                  <MdEditor
+                    style={{ height: "400px" }}
+                    renderHTML={(text) => mdParser.render(text)}
+                    onChange={this.handleEditorChange}
+                    value={
+                      this.state.contentMarkdown
+                        ? this.state.contentMarkdown
+                        : ""
+                    }
+                  />
+                </div>
+                <div className="col-12">
+                  <button
+                    className="btn-primary px-3 btn-submit"
+                    onClick={(e) => this.handleSubmit(e)}
+                  >
+                    <FormattedMessage id="manage-specialty.save" />
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-        <div className="users-container container my-5">
-          <table id="customers">
-            <thead>
-              <tr>
-                <th>
-                  <FormattedMessage id="manage-specialty.order" />
-                </th>
-                <th>
-                  <FormattedMessage id="manage-handbook.name" />
-                </th>
-                <th>
-                  <FormattedMessage id="manage-handbook.author" />
-                </th>
-                <th>
-                  <FormattedMessage id="manage-specialty.options" />
-                </th>
-              </tr>
-            </thead>
+          <div className="users-container container my-5">
+            <table id="customers">
+              <thead>
+                <tr>
+                  <th>
+                    <FormattedMessage id="manage-specialty.order" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="manage-handbook.name" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="manage-handbook.author" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="manage-specialty.options" />
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {listHandBook &&
-                listHandBook.length > 0 &&
-                listHandBook.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{item.name}</td>
-                      <td>{item.author}</td>
-                      <td>
-                        <div>
-                          <button
-                            className="btn btn-edit"
-                            onClick={() => this.handleEditClinic(item)}
-                          >
-                            <i className="fas fa-pencil-alt"></i>
-                          </button>
-                          <button
-                            className="btn btn-delete"
-                            onClick={() => this.handleDeleteClinic(item)}
-                          >
-                            <i className="fas fa-trash"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
+              <tbody>
+                {listHandBook &&
+                  listHandBook.length > 0 &&
+                  listHandBook.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{item.name}</td>
+                        <td>{item.author}</td>
+                        <td>
+                          <div>
+                            <button
+                              className="btn btn-edit"
+                              onClick={() => this.handleEditClinic(item)}
+                            >
+                              <i className="fas fa-pencil-alt"></i>
+                            </button>
+                            <button
+                              className="btn btn-delete"
+                              onClick={() => this.handleDeleteClinic(item)}
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        </LoadingOverlay>
       </>
     );
   }

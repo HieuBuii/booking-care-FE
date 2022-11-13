@@ -22,6 +22,7 @@ class DoctorSchedule extends Component {
 
   async componentDidMount() {
     let { language } = this.props;
+
     let listDays = this.getArrDays(language);
     this.setState({
       listDays,
@@ -119,6 +120,10 @@ class DoctorSchedule extends Component {
     });
   };
 
+  handleLoading = (boolean) => {
+    this.props.handleShowLoadingFromParent(boolean);
+  };
+
   render() {
     let { listDays, availabelTime } = this.state;
     let { language } = this.props;
@@ -179,6 +184,7 @@ class DoctorSchedule extends Component {
           isShowModalBooking={this.state.isShowModalBooking}
           closeModalBooking={this.closeModalBooking}
           dataTime={this.state.dataScheduleModal}
+          handleLoadingToChild={this.handleLoading}
         />
       </>
     );

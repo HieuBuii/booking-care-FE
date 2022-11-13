@@ -14,8 +14,9 @@ import {
   deleteClinicService,
 } from "../../../services/userService";
 import _ from "lodash";
+import LoadingOverlay from "react-loading-overlay";
 
-const mdParser = new MarkdownIt(/* Doctor_Intro-it options */);
+const mdParser = new MarkdownIt();
 
 class ManageClinic extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class ManageClinic extends Component {
       idClinic: "",
       statusSubmit: "ADD",
       token: "",
+      isLoading: false,
     };
   }
 
@@ -85,6 +87,7 @@ class ManageClinic extends Component {
     if (this.state.statusSubmit === "ADD") {
       let isValid = this.validInput();
       if (isValid) {
+        this.handleShowLoading(true);
         let res = await saveClinicService(
           {
             image: this.state.image,
@@ -95,6 +98,7 @@ class ManageClinic extends Component {
           },
           token
         );
+        this.handleShowLoading(false);
         if (res && res.errCode === 0) {
           toast.success(
             <FormattedMessage id="manage-specialty.save-succeed" />
@@ -117,6 +121,7 @@ class ManageClinic extends Component {
     if (this.state.statusSubmit === "EDIT") {
       let isValid = this.validInput();
       if (isValid) {
+        this.handleShowLoading(true);
         let res = await editClinicService({
           image: this.state.image,
           name: this.state.name,
@@ -125,6 +130,7 @@ class ManageClinic extends Component {
           contentMarkdown: this.state.contentMarkdown,
           id: this.state.idClinic,
         });
+        this.handleShowLoading(false);
         if (res && res.errCode === 0) {
           toast.success(
             <FormattedMessage id="manage-specialty.save-succeed" />
@@ -181,7 +187,9 @@ class ManageClinic extends Component {
 
   handleDeleteClinic = async (item) => {
     if (item && !_.isEmpty(item)) {
+      this.handleShowLoading(true);
       let res = await deleteClinicService(item.id);
+      this.handleShowLoading(false);
       if (res && res.errCode === 0) {
         toast.success(<FormattedMessage id="manage-clinic.delete-succeed" />);
       } else {
@@ -196,136 +204,146 @@ class ManageClinic extends Component {
     }
   };
 
+  handleShowLoading = (boolean) => {
+    this.setState({
+      isLoading: boolean,
+    });
+  };
+
   render() {
     let { listClinic } = this.state;
     let file = this.state.previewImg;
     return (
       <>
-        <div className="manage-specialty-container">
-          <div className="title">
-            <FormattedMessage id="manage-clinic.title" />
-          </div>
-          <div className="manage-body container">
-            <form className="row g-3 mt-5">
-              <div className="col-md-4">
-                <label className="form-label">
-                  <FormattedMessage id="manage-clinic.name" />
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  onChange={(e) => this.handleChangeInput(e, "name")}
-                  value={this.state.name}
-                />
-              </div>
-              <div className="col-md-4">
-                <label className="form-label">
-                  <FormattedMessage id="manage-clinic.address" />
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  onChange={(e) => this.handleChangeInput(e, "address")}
-                  value={this.state.address}
-                />
-              </div>
-              <div className="col-md-4 manage-specialty-img">
-                <label className="form-label">
-                  <FormattedMessage id="manage-clinic.image-clinic" />
-                </label>
-                <div className="input-img-container">
-                  <input
-                    type="file"
-                    id="input-img"
-                    hidden
-                    onChange={(e) => this.handleAddImg(e)}
-                  />
-                  <label htmlFor="input-img" className="img-label">
-                    <FormattedMessage id="manage-user.upload" />{" "}
-                    <i className="fas fa-upload"></i>
+        <LoadingOverlay active={this.state.isLoading} spinner text="Loading...">
+          <div className="manage-specialty-container">
+            <div className="title">
+              <FormattedMessage id="manage-clinic.title" />
+            </div>
+            <div className="manage-body container">
+              <form className="row g-3 mt-5">
+                <div className="col-md-4">
+                  <label className="form-label">
+                    <FormattedMessage id="manage-clinic.name" />
                   </label>
-                  {this.state.previewImg && (
-                    <div
-                      className="img-preview"
-                      style={{ backgroundImage: `url(${file})` }}
-                    ></div>
-                  )}
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => this.handleChangeInput(e, "name")}
+                    value={this.state.name}
+                  />
                 </div>
-              </div>
-              <div className="col-12">
-                <div className="mb-2">
-                  <FormattedMessage id="manage-clinic.desc" />
+                <div className="col-md-4">
+                  <label className="form-label">
+                    <FormattedMessage id="manage-clinic.address" />
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => this.handleChangeInput(e, "address")}
+                    value={this.state.address}
+                  />
                 </div>
-                <MdEditor
-                  style={{ height: "400px" }}
-                  renderHTML={(text) => mdParser.render(text)}
-                  onChange={this.handleEditorChange}
-                  value={
-                    this.state.contentMarkdown ? this.state.contentMarkdown : ""
-                  }
-                />
-              </div>
-              <div className="col-12">
-                <button
-                  className="btn-primary px-3 btn-submit"
-                  onClick={(e) => this.handleSubmit(e)}
-                >
-                  <FormattedMessage id="manage-specialty.save" />
-                </button>
-              </div>
-            </form>
+                <div className="col-md-4 manage-specialty-img">
+                  <label className="form-label">
+                    <FormattedMessage id="manage-clinic.image-clinic" />
+                  </label>
+                  <div className="input-img-container">
+                    <input
+                      type="file"
+                      id="input-img"
+                      hidden
+                      onChange={(e) => this.handleAddImg(e)}
+                    />
+                    <label htmlFor="input-img" className="img-label">
+                      <FormattedMessage id="manage-user.upload" />{" "}
+                      <i className="fas fa-upload"></i>
+                    </label>
+                    {this.state.previewImg && (
+                      <div
+                        className="img-preview"
+                        style={{ backgroundImage: `url(${file})` }}
+                      ></div>
+                    )}
+                  </div>
+                </div>
+                <div className="col-12">
+                  <div className="mb-2">
+                    <FormattedMessage id="manage-clinic.desc" />
+                  </div>
+                  <MdEditor
+                    style={{ height: "400px" }}
+                    renderHTML={(text) => mdParser.render(text)}
+                    onChange={this.handleEditorChange}
+                    value={
+                      this.state.contentMarkdown
+                        ? this.state.contentMarkdown
+                        : ""
+                    }
+                  />
+                </div>
+                <div className="col-12">
+                  <button
+                    className="btn-primary px-3 btn-submit"
+                    onClick={(e) => this.handleSubmit(e)}
+                  >
+                    <FormattedMessage id="manage-specialty.save" />
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-        <div className="users-container container my-5">
-          <table id="customers">
-            <thead>
-              <tr>
-                <th>
-                  <FormattedMessage id="manage-specialty.order" />
-                </th>
-                <th>
-                  <FormattedMessage id="manage-clinic.name" />
-                </th>
-                <th>
-                  <FormattedMessage id="manage-clinic.address" />
-                </th>
-                <th>
-                  <FormattedMessage id="manage-specialty.options" />
-                </th>
-              </tr>
-            </thead>
+          <div className="users-container container my-5">
+            <table id="customers">
+              <thead>
+                <tr>
+                  <th>
+                    <FormattedMessage id="manage-specialty.order" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="manage-clinic.name" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="manage-clinic.address" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="manage-specialty.options" />
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {listClinic &&
-                listClinic.length > 0 &&
-                listClinic.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{item.name}</td>
-                      <td>{item.address}</td>
-                      <td>
-                        <div>
-                          <button
-                            className="btn btn-edit"
-                            onClick={() => this.handleEditClinic(item)}
-                          >
-                            <i className="fas fa-pencil-alt"></i>
-                          </button>
-                          <button
-                            className="btn btn-delete"
-                            onClick={() => this.handleDeleteClinic(item)}
-                          >
-                            <i className="fas fa-trash"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
+              <tbody>
+                {listClinic &&
+                  listClinic.length > 0 &&
+                  listClinic.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{item.name}</td>
+                        <td>{item.address}</td>
+                        <td>
+                          <div>
+                            <button
+                              className="btn btn-edit"
+                              onClick={() => this.handleEditClinic(item)}
+                            >
+                              <i className="fas fa-pencil-alt"></i>
+                            </button>
+                            <button
+                              className="btn btn-delete"
+                              onClick={() => this.handleDeleteClinic(item)}
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        </LoadingOverlay>
       </>
     );
   }

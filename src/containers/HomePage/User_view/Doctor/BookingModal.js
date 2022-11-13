@@ -140,6 +140,7 @@ class BookingModal extends Component {
   handleSubmit = async () => {
     let isValid = this.validInput();
     if (isValid) {
+      this.props.handleLoadingToChild(true);
       let timeString = this.buildTimeBooking(this.props.dataTime);
       let doctorName = this.buildDoctorName(this.props.dataTime);
       let res = await savePatientBooking({
@@ -159,9 +160,11 @@ class BookingModal extends Component {
       });
 
       if (res && res.errCode === 0) {
+        this.props.handleLoadingToChild(false);
         toast.success("Đặt lịch thành công !!");
         this.props.closeModalBooking();
       } else {
+        this.props.handleLoadingToChild(false);
         toast.error("Đặt lịch thất bại !!");
       }
     } else {
