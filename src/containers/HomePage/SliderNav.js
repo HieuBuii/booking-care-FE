@@ -1,27 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./HomeHeader.scss";
 import { FormattedMessage } from "react-intl";
-import { LENGUAGES } from "../../utils/constant";
-import { changeLanguageApp } from "../../store/actions";
-import mainLogo from "../../assets/images/Logo.png";
 import { withRouter } from "react-router";
-import SliderNav from "./SliderNav";
 
-class HomeHeader extends Component {
+class SliderNav extends Component {
   constructor(props) {
     super(props);
-    this.state = { isShowNavBar: false };
+    this.state = {
+      isShow: "",
+    };
   }
-  changeLanguage = (language) => {
-    this.props.changeLanguageAppRedux(language);
-  };
 
-  goToHome = () => {
-    if (this.props.history) {
-      this.props.history.push(`/home`);
+  async componentDidMount() {
+    this.setState({
+      isShow: this.props.isShowNavBar,
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.isShowNavBar !== this.props.isShowNavBar) {
+      this.setState({
+        isShow: this.props.isShowNavBar,
+      });
     }
-  };
+  }
 
   handleViewMore = (id) => {
     if (this.props.history) {
@@ -38,41 +40,20 @@ class HomeHeader extends Component {
     }
   };
 
-  changeStateShowNav = () => {
-    this.setState({
-      isShowNavBar: !this.state.isShowNavBar,
-    });
-  };
-
-  handleShowNav = (boolean) => {
-    this.setState({
-      isShowNavBar: boolean,
-    });
+  hideNavBar = () => {
+    this.props.handleShowNav(false);
   };
 
   render() {
-    let language = this.props.language;
+    let { isShow } = this.state;
     return (
       <>
-        <SliderNav
-          handleShowNav={this.handleShowNav}
-          isShowNavBar={this.state.isShowNavBar}
-        />
-        <div className="home-header-container">
-          <div className="home-header-content container">
-            <div className="content-left">
-              <i
-                className="fas fa-bars icon"
-                onClick={() => this.changeStateShowNav()}
-              ></i>
-              <div className="header-logo">
-                <img
-                  src={mainLogo}
-                  alt="logo"
-                  onClick={() => this.goToHome()}
-                ></img>
-              </div>
-            </div>
+        {isShow === true ? (
+          <div className="slider-nav">
+            <i
+              className="fas fa-times close"
+              onClick={() => this.hideNavBar()}
+            ></i>
             <ul className="content-center">
               <li
                 className="content-child"
@@ -121,39 +102,10 @@ class HomeHeader extends Component {
                 </div>
               </li>
             </ul>
-            <div className="content-right">
-              {/* <div className="content-support">
-                <i className="fas fa-question question"></i>
-                <span className="content-question">
-                  <FormattedMessage id="homeheader.support" />
-                </span>
-              </div> */}
-              <div className="content-lang">
-                <span
-                  className={
-                    language === LENGUAGES.VI
-                      ? "content-lang-vi isActive"
-                      : "content-lang-vi"
-                  }
-                  onClick={() => this.changeLanguage(LENGUAGES.VI)}
-                >
-                  VI
-                </span>
-                <span>/</span>
-                <span
-                  className={
-                    language === LENGUAGES.EN
-                      ? "content-lang-en isActive"
-                      : "content-lang-en"
-                  }
-                  onClick={() => this.changeLanguage(LENGUAGES.EN)}
-                >
-                  EN
-                </span>
-              </div>
-            </div>
           </div>
-        </div>
+        ) : (
+          ""
+        )}
       </>
     );
   }
@@ -161,18 +113,14 @@ class HomeHeader extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    changeLanguageAppRedux: (languages) =>
-      dispatch(changeLanguageApp(languages)),
-  };
+  return {};
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(HomeHeader)
+  connect(mapStateToProps, mapDispatchToProps)(SliderNav)
 );

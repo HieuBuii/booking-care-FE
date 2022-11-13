@@ -14,6 +14,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 class HomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   render() {
     let settings = {
       dots: false,
@@ -24,7 +29,10 @@ class HomePage extends Component {
     };
     return (
       <div>
-        <HomeHeader />
+        <HomeHeader
+          handleShowNav={this.handleShowNav}
+          isShowNavBar={this.state.isShowNavBar}
+        />
         <Banner />
         <Specialty settings={settings} />
         <MedicalFacility settings={settings} />

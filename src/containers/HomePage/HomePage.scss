@@ -90,6 +90,10 @@
         .about-content {
           height: 100%;
           width: calc(55% - 10px);
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 10;
+          -webkit-box-orient: vertical;
         }
 
         .about-image {
@@ -143,5 +147,118 @@
   a {
     text-decoration: none;
     display: inline;
+  }
+}
+
+.slider-nav {
+  z-index: 999999;
+  position: fixed;
+  top: 70px;
+  bottom: 0;
+  left: 0;
+  min-width: 150px;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
+  .close {
+    float: right;
+    font-size: 25px;
+    cursor: pointer;
+  }
+  .content-center {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    .content-child {
+      margin-top: 10px;
+      border-bottom: 1px solid #bebebe;
+      cursor: pointer;
+      &:hover {
+        color: rgb(11, 103, 241);
+        text-shadow: 1px 1px 1px #ccc;
+      }
+      .child-title {
+        font-weight: 600;
+        font-size: 16px;
+      }
+      .child-subtitle {
+        font-size: 10px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .section-common
+    .section-container
+    .section-body
+    .section-custom
+    .section-img {
+    height: 115px;
+  }
+
+  .section-common .section-container .section-body .section-custom .custom-img {
+    padding: 20px 10px;
+    min-height: 206px;
+    .doctor-img {
+      width: 80px;
+      height: 80px;
+    }
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .detail-specialty-container .detail-specialty-body .about-doctor {
+    flex-direction: column;
+    flex-wrap: wrap;
+    .about-schedule-doctor {
+      width: 100% !important;
+    }
+    .about-detail-doctor {
+      width: 100% !important;
+    }
+  }
+  .more-content-container .image-detail-more {
+    min-height: 180px !important;
+  }
+  .image-handBook-more {
+    min-height: 120px;
+    min-width: 50%;
+  }
+
+  .detail-doctor-top .detail-doctor-top-right .detail-doctor-title {
+    font-size: 25px !important;
+  }
+
+  .detail-doctor-top-left {
+    .avatar-doctor {
+      width: 80px !important;
+      height: 80px !important;
+      margin-right: 10px;
+    }
+  }
+
+  .detail-doctor-top .schedule-doctor-container {
+    flex-direction: column;
+    flex-wrap: wrap;
+    .schedule-left {
+      width: 100% !important;
+    }
+    .schedule-right {
+      width: 100% !important;
+      .doctor-more-detail {
+        border-left: unset;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 475px) {
+  .section-common .section-container .section-body .section-custom .custom-img {
+    padding: 10px;
+    min-height: 220px;
   }
 }
